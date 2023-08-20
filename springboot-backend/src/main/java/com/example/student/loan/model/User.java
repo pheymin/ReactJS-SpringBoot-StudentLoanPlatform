@@ -2,8 +2,6 @@ package com.example.student.loan.model;
 
 import jakarta.persistence.*;
 
-import java.util.Objects;
-
 @Entity
 @Table (name = "User")
 public class User {
@@ -51,7 +49,8 @@ public class User {
 
     public User(){}
 
-    public User(String name, String email, String password, String dob, String ic, String phone, String bankName, String bankAcc, String userType, String city, String street, String state, String postcode, Integer status) {
+    public User(Integer userID, String name, String email, String password, String dob, String ic, String phone, String bankName, String bankAcc, String userType, String city, String street, String state, String postcode, Integer status) {
+        this.userID = userID;
         this.name = name;
         this.email = email;
         this.password = password;

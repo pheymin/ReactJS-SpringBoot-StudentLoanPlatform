@@ -7,10 +7,14 @@ CREATE TABLE User (
     dob DATE NOT NULL,
     ic VARCHAR(12) NOT NULL,
     phone VARCHAR(11) NOT NULL,
-    address VARCHAR(255) NOT NULL,
     bankName VARCHAR(50),
     bankAcc VARCHAR(25),
-    userType ENUM('Borrower', 'Lender', 'Admin') NOT NULL
+    userType ENUM('Borrower', 'Lender', 'Admin') NOT NULL,
+    city varchar(255),
+	street varchar(255),
+	state varchar(255),
+	postcode varchar(10),
+	status ENUM('0', '1')
 );
 
 -- Borrower Table
