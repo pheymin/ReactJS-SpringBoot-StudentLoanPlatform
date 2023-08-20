@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Montserrat', sans-serif;
   line-height: 1.5;
   font-weight: 400;
 }
@@ -19,4 +19,38 @@ body {
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
+  font-weight: 600;
+}
+
+h2 {
+  font-size: 2.4em;
+  line-height: 1.1;
+  font-weight: 600;
+}
+
+button {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn-primary{
+  background-color: #4f46e5;
+  color: #ffffff;
+}
+
+.btn-primary:hover {
+  background-color: #ffffff;
+  color: #4f46e5;
+  border: #4f46e5;
+  transition: background-color 0.3s ease;
+}
+
+.btn-secondary {
+  background-color: #ffffff;
+  color: #4f46e5;
+  border: 1px solid #4f46e5;
 }
