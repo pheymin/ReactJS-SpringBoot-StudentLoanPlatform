@@ -2,6 +2,7 @@ import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { useState, useEffect } from 'react'
+import { Link, NavLink } from 'react-router-dom';
 
 const user = {
     name: 'Tom Cook',
@@ -89,19 +90,19 @@ export default function Nav() {
                             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                                 <div className="flex h-16 items-center justify-between">
                                     <div className="flex items-center">
-                                        <div className="flex-shrink-0">
+                                        <Link to='/' className="flex-shrink-0">
                                             <img
                                                 className="h-8 w-8"
                                                 src="/vite.svg"
                                                 alt="Logo"
                                             />
-                                        </div>
+                                        </Link>
                                         <div className="hidden md:block">
                                             <div className="ml-10 flex items-baseline space-x-4">
                                                 {navigation.map((item) => (
-                                                    <a
+                                                    <Link
                                                         key={item.name}
-                                                        href={item.href}
+                                                        to={item.href}
                                                         className={classNames(
                                                             item.current
                                                                 ? 'bg-gray-900 text-white'
@@ -112,7 +113,7 @@ export default function Nav() {
                                                         onClick={handleClick}
                                                     >
                                                         {item.name}
-                                                    </a>
+                                                    </Link>
                                                 ))}
                                             </div>
                                         </div>
@@ -151,15 +152,15 @@ export default function Nav() {
                                                         {profileNavigation.map((item) => (
                                                             <Menu.Item key={item.name}>
                                                                 {({ active }) => (
-                                                                    <a
-                                                                        href={item.href}
+                                                                    <Link
+                                                                        to={item.href}
                                                                         className={classNames(
                                                                             active ? 'bg-gray-100' : '',
                                                                             'block px-4 py-2 text-sm text-gray-700'
                                                                         )}
                                                                     >
                                                                         {item.name}
-                                                                    </a>
+                                                                    </Link>
                                                                 )}
                                                             </Menu.Item>
                                                         ))}
