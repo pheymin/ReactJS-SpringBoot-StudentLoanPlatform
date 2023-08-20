@@ -29,9 +29,6 @@ public class User {
     @Column(name = "phone")
     private String phone;
 
-    @Column(name = "address")
-    private String address;
-
     @Column(name = "bank_name")
     private String bankName;
 
@@ -41,19 +38,34 @@ public class User {
     @Column(name = "user_type")
     private String userType;
 
+    @Column(name = "city")
+    private String city;
+    @Column(name = "street")
+    private String street;
+    @Column(name = "state")
+    private String state;
+    @Column(name = "postcode")
+    private String postcode;
+    @Column(name = "status")
+    private Integer status;
+
     public User(){}
 
-    public User(String name, String email, String password, String dob, String ic, String phone, String address, String bankName, String bankAcc, String userType) {
+    public User(String name, String email, String password, String dob, String ic, String phone, String bankName, String bankAcc, String userType, String city, String street, String state, String postcode, Integer status) {
         this.name = name;
         this.email = email;
         this.password = password;
         this.dob = dob;
         this.ic = ic;
         this.phone = phone;
-        this.address = address;
         this.bankName = bankName;
         this.bankAcc = bankAcc;
         this.userType = userType;
+        this.city = city;
+        this.street = street;
+        this.state = state;
+        this.postcode = postcode;
+        this.status = status;
     }
 
     public Integer getUserID() {
@@ -112,14 +124,6 @@ public class User {
         this.phone = phone;
     }
 
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
     public String getBankName() {
         return bankName;
     }
@@ -144,6 +148,46 @@ public class User {
         this.userType = userType;
     }
 
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getPostcode() {
+        return postcode;
+    }
+
+    public void setPostcode(String postcode) {
+        this.postcode = postcode;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -154,10 +198,14 @@ public class User {
                 ", dob='" + dob + '\'' +
                 ", ic='" + ic + '\'' +
                 ", phone='" + phone + '\'' +
-                ", address='" + address + '\'' +
                 ", bankName='" + bankName + '\'' +
                 ", bankAcc='" + bankAcc + '\'' +
                 ", userType='" + userType + '\'' +
+                ", city='" + city + '\'' +
+                ", street='" + street + '\'' +
+                ", state='" + state + '\'' +
+                ", postcode='" + postcode + '\'' +
+                ", status=" + status +
                 '}';
     }
 }
