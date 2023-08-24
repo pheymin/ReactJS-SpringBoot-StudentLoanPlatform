@@ -1,22 +1,63 @@
 package com.example.student.loan.controller;
 
 import com.example.student.loan.model.Admin;
+import com.example.student.loan.model.AdminDTO;
 import com.example.student.loan.repository.AdminRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.example.student.loan.service.AdminService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:5173/")
 @RestController
-@RequestMapping("/api/v1/")
+@RequestMapping("/admin")
 public class AdminController {
-    @Autowired
-    private AdminRepository adminRepository;
+    private final AdminService adminService;
 
-    @GetMapping("/admin")
-    public List<Admin> getAllAdmin(){ return adminRepository.findAll();}
+    public AdminController(AdminService adminService) {
+        this.adminService = adminService;
+    }
+
+    @GetMapping
+    public ResponseEntity<List<AdminDTO>> getAllAdmins() {
+        List<Admin> admins = adminService.getAllAdmins();
+        List<AdminDTO> adminDTOs = new ArrayList<>();
+
+        for (Admin admin : admins) {
+            adminDTOs.add(AdminDTO.createDTO(admin));
+        }
+
+        return ResponseEntity.ok(adminDTOs);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<AdminDTO> getAdminById(@PathVariable Integer id) {
+        Admin admin = adminService.getAdminById(id);
+        AdminDTO adminDTO = AdminDTO.createDTO(admin);
+
+        return ResponseEntity.ok(adminDTO);
+    }
+
+    @PostMapping
+    public ResponseEntity<AdminDTO> createAdmin(@RequestBody Admin admin) {
+        Admin newAdmin = adminService.createAdmin(admin);
+        AdminDTO adminDTO = AdminDTO.createDTO(newAdmin);
+
+        return ResponseEntity.ok(adminDTO);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<AdminDTO> updateAdmin(@PathVariable Integer id, @RequestBody Admin admin) {
+        Admin updatedAdmin = adminService.updateAdmin(id, admin);
+        AdminDTO adminDTO = AdminDTO.createDTO(updatedAdmin);
+
+        return ResponseEntity.ok(adminDTO);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteAdmin(@PathVariable Integer id) {
+        adminService.deleteAdmin(id);
+    }
 }

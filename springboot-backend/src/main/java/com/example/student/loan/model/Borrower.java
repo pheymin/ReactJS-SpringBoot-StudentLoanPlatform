@@ -12,23 +12,23 @@ public class Borrower {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer borrowerID;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "userID")
     private User user;
 
-    @Column(name = "uniName")
+    @Column(name = "uni_name")
     private String uniName;
 
-    @Column(name = "levelOfStudy")
+    @Column(name = "level_of_study")
     private String levelOfStudy;
 
     @Column(name = "course")
     private String course;
 
-    @Column(name = "courseDuration")
+    @Column(name = "course_duration")
     private Date courseDuration;
 
-    @Column(name = "expGraduation")
+    @Column(name = "exp_graduation")
     private Date expGraduation;
 
     public Borrower() {}

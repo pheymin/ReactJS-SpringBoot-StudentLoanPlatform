@@ -1,4 +1,8 @@
 import React from 'react'
+import { useEffect } from 'react';
+import BorrowerService from '../services/BorrowerService';
+import UserService from '../services/UserService';
+import AdminService from '../services/AdminService';
 
 const Header_Container = () => (
     <section className='mt-24 px-14 md:mt-0 md:px-36 flex flex-row flex-wrap items-center w-full'>
@@ -21,6 +25,7 @@ const Header_Container = () => (
 );
 
 export default function Home() {
+
     return (
         <div>
             <Header_Container />

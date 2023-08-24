@@ -1,22 +1,63 @@
 package com.example.student.loan.controller;
 
 import com.example.student.loan.model.Lender;
+import com.example.student.loan.model.LenderDTO;
 import com.example.student.loan.repository.LenderRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.example.student.loan.service.LenderService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:5173/")
 @RestController
-@RequestMapping("/api/v1/")
+@RequestMapping("/lenders")
 public class LenderController {
-    @Autowired
-    private LenderRepository lenderRepository;
+    private final LenderService lenderService;
 
-    @GetMapping("/lenders")
-    public List<Lender> getAllLenders(){ return lenderRepository.findAll();}
+    public LenderController(LenderService lenderService) {
+        this.lenderService = lenderService;
+    }
+
+    @GetMapping
+    public ResponseEntity<List<LenderDTO>> getAllLenders() {
+        List<Lender> lenders = lenderService.getAllLenders();
+        List<LenderDTO> lenderDTOs = new ArrayList<>();
+
+        for (Lender lender : lenders) {
+            lenderDTOs.add(LenderDTO.createDTO(lender));
+        }
+
+        return ResponseEntity.ok(lenderDTOs);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<LenderDTO> getLenderById(@PathVariable Integer id) {
+        Lender lender = lenderService.getLenderById(id);
+        LenderDTO lenderDTO = LenderDTO.createDTO(lender);
+
+        return ResponseEntity.ok(lenderDTO);
+    }
+
+    @PostMapping
+    public ResponseEntity<LenderDTO> createLender(@RequestBody Lender lender) {
+        Lender newLender = lenderService.createLender(lender);
+        LenderDTO lenderDTO = LenderDTO.createDTO(newLender);
+
+        return ResponseEntity.ok(lenderDTO);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<LenderDTO> updateLender(@PathVariable Integer id, @RequestBody Lender lender) {
+        Lender updatedLender = lenderService.updateLender(id, lender);
+        LenderDTO lenderDTO = LenderDTO.createDTO(updatedLender);
+
+        return ResponseEntity.ok(lenderDTO);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteLender(@PathVariable Integer id) {
+        lenderService.deleteLender(id);
+    }
 }
