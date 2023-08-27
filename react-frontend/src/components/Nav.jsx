@@ -33,29 +33,28 @@ export default function Nav() {
     const [current, setCurrent] = useState('Home');
 
     useEffect(() => {
-        if (localStorage.getItem('token') !== null) {
+        if (localStorage.getItem('userID') !== null) {
             setIsLoggedIn(true);
             let updatedNavigation = [];
 
-            if (localStorage.getItem('role') === 'admin') {
+            if (localStorage.getItem('userType') === 'Admin') {
                 updatedNavigation = [
-                    { name: 'Dashboard', href: '/dashboard', current: false },
-                    { name: 'Manage User Account', href: '/manage-user', current: false },
-                    { name: 'Manage Loan and Repayment', href: '/manage-loan', current: false },
+                    { name: 'Dashboard', href: 'admin/dashboard', current: false },
+                    { name: 'Manage User Account', href: 'admin/manage-user', current: false },
+                    { name: 'Manage Loan and Repayment', href: 'admin/manage-loan', current: false },
                 ];
-            } else if (localStorage.getItem('role') === 'borrower') {
+            } else if (localStorage.getItem('userType') === 'Borrower') {
                 updatedNavigation = [
-                    { name: 'Dashboard', href: '/dashboard', current: false },
-                    { name: 'Submit Document', href: '/submit-document', current: false },
-                    { name: 'Submit Loan Application', href: '/loan-application', current: false },
-                    { name: 'Make Repayment', href: '/repayment', current: false },
+                    { name: 'Dashboard', href: 'borrower/dashboard', current: false },
+                    { name: 'Submit Loan Application', href: 'borrower/loan-application', current: false },
+                    { name: 'Make Repayment', href: 'borrower/repayment', current: false },
                 ];
-            } else if (localStorage.getItem('role') === 'lender') {
+            } else if (localStorage.getItem('userType') === 'Lender') {
                 updatedNavigation = [
-                    { name: 'Dashboard', href: '/dashboard', current: false },
-                    { name: 'Loan Listing', href: '/loan', current: false },
-                    { name: 'Sign Loan Agreement', href: '/agreement', current: false },
-                    { name: 'Provide Fund', href: '/fund', current: false },
+                    { name: 'Dashboard', href: 'lender/dashboard', current: false },
+                    { name: 'Loan Listing', href: 'lender/loan', current: false },
+                    { name: 'Sign Loan Agreement', href: 'lender/agreement', current: false },
+                    { name: 'Provide Fund', href: 'lender/fund', current: false },
                 ];
             }
 
@@ -136,7 +135,7 @@ export default function Nav() {
                                                     <Menu.Button className="relative flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                                                         <span className="absolute -inset-1.5" />
                                                         <span className="sr-only">Open user menu</span>
-                                                        <img className="h-8 w-8 rounded-full" src={user.imageUrl} alt="" />
+                                                        <img className="h-8 w-8 rounded-full" src={user.imageUrl} alt="profile" />
                                                     </Menu.Button>
                                                 </div>
                                                 <Transition
