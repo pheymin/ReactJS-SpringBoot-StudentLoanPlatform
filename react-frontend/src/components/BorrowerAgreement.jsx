@@ -28,11 +28,22 @@ const BorrowerAgreement = () => {
                 By signing below, the parties acknowledge their understanding and acceptance of the terms and conditions set forth in this Agreement.
 
             </p>
-            <button
-                type="submit"
-                className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            >
-                Submit
+            <div className='space-y-10'>
+                <div className='space-y-1'>
+                    <h4 className='font-bold'>Lender</h4>
+                    <h2><em>John Doe</em></h2>
+                    <p>Name: John Doe</p>
+                    <p>Date: 27/08/23</p>
+                </div>
+                <div className='space-y-1'>
+                    <h4 className='font-bold'>Borrower</h4>
+                    <h2><em>John Doe</em></h2>
+                    <p>Name: John Doe</p>
+                    <p>Date: 27/08/23</p>
+                </div>
+            </div>
+            <button className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                Sign Loan Agreement
             </button>
 
         </div>

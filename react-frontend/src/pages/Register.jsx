@@ -29,25 +29,12 @@ export default function Register() {
                 state,
                 postcode,
                 phone,
-                userType
+                userType,
+                photoUrl: "https://source.boringavatars.com/marble/120/" + ic,
             });
 
             window.location.href = '/login';
         } catch (error) {
-            console.log(error);
-            console.log({
-                email,
-                password,
-                name,
-                dob,
-                ic,
-                street,
-                city,
-                state,
-                postcode,
-                phone,
-                userType
-            });
             alert(error.response.data);
         }
     }

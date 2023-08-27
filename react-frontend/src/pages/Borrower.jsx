@@ -1,11 +1,9 @@
 import React from 'react'
 import { Steps } from 'antd';
 
-const description = "des";
-
 const Borrower = () => {
     return (
-        <div className='w-9/12 mx-auto my-5 md:py-4'>
+        <div className='w-9/12 mx-auto my-5 md:py-4 space-y-5'>
             <h2>Dashboard</h2>
             <div className='grid grid-rows-2 grid-cols-1 w-100'>
                 <div className='flex flex-col border rounded-lg px-5 py-10'>
