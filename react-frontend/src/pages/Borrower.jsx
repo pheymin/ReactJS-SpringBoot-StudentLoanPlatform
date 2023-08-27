@@ -5,7 +5,8 @@ const description = "des";
 
 const Borrower = () => {
     return (
-        <div className='container mx-auto'>
+        <div className='w-9/12 mx-auto my-5 md:py-4'>
+            <h2>Dashboard</h2>
             <div className='grid grid-rows-2 grid-cols-1 w-100'>
                 <div className='flex flex-col border rounded-lg px-5 py-10'>
                     <h4 className='font-semibold'>Loan Status</h4>

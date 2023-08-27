@@ -36,7 +36,7 @@ const Profile = () => {
         <div className='w-9/12 mx-auto my-5 md:border rounded-lg md:px-20 md:py-4'>
             <div className="space-y-12">
                 <div className='pb-8'>
-                    <h2 className="text-base font-semibold leading-7 text-gray-900 mb-4">Profile</h2>
+                    <h2 className=" text-gray-900 mb-4">Profile</h2>
 
                     <div className="sm:col-span-4">
                         <Avatar size={64} icon={<UserOutlined />} />
