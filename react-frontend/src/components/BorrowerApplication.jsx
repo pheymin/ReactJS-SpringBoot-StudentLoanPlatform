@@ -1,6 +1,20 @@
 import React from 'react'
+import { useState } from 'react';
+import { DatePicker} from 'antd';
+const { RangePicker } = DatePicker;
 
 const BorrowerApplication = () => {
+    const [courseDuration, setCourseDuration] = useState(null);
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+    
+        if (courseDuration === null) {
+            alert('Please select the course duration.');
+            return;
+        }
+    };
+
     return (
         <form className='space-y-5'>
             <div className="mt-4 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2">
@@ -27,6 +41,7 @@ const BorrowerApplication = () => {
                         id="level-of-study"
                         className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         required
+                        value={'Degree'}
                     >
                         <option value="Diploma">Diploma</option>
                         <option value="Degree">Degree</option>
@@ -40,7 +55,8 @@ const BorrowerApplication = () => {
                         Loan Amount
                     </label>
                     <input
-                        type="digit"
+                        type="number"
+                        step="0.01" 
                         name="loan-amount"
                         id="loan-amount"
                         className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -65,26 +81,25 @@ const BorrowerApplication = () => {
                     <label htmlFor="phone" className="block text-sm font-medium leading-6 text-gray-900">
                         Loan Duration
                     </label>
-                    <input
-                        type="text"
+                    <RangePicker
                         name="loan-duration"
                         id="loan-duration"
-                        autoComplete="loan-duration"
-                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                        className='w-full py-1.5'
                         disabled
+                        value={courseDuration}
                     />
                 </div>
-
+                
                 <div className='space-y-2'>
                     <label htmlFor="course-duration" className="block text-sm font-medium leading-6 text-gray-900">
                         Course Duration
                     </label>
-                    <input
-                        type="number"
+                    <RangePicker
                         name="course-duration"
                         id="course-duration"
-                        autoComplete="course-duration"
-                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                        required
+                        className='w-full py-1.5'
+                        onChange={(value) => setCourseDuration(value)}
                     />
                 </div>
 
@@ -104,19 +119,6 @@ const BorrowerApplication = () => {
                 </div>
 
                 <div className='space-y-2'>
-                    <label htmlFor="expected-graduation" className="block text-sm font-medium leading-6 text-gray-900">
-                        Expected Graduation
-                    </label>
-                    <input
-                        type="date"
-                        name="expected-graduation"
-                        id="expected-graduation"
-                        autoComplete="expected-graduation"
-                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                    />
-                </div>
-
-                <div className='space-y-2'>
                     <label htmlFor="loan-purpose" className="block text-sm font-medium leading-6 text-gray-900">
                         Loan Purpose
                     </label>
@@ -124,13 +126,14 @@ const BorrowerApplication = () => {
                         type="text"
                         name="loan-purpose"
                         id="loan-purpose"
-                        autoComplete="loan-purpose"
+                        required
                         className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     />
                 </div>
             </div>
             <button
                 type="submit"
+                onClick={handleSubmit}
                 className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
                 Submit

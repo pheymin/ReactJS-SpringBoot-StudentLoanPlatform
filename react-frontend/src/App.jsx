@@ -7,6 +7,7 @@ import Register from './pages/Register';
 import Profile from './pages/Profile';
 import Borrower from './pages/Borrower';
 import LoanApplication from './pages/LoanApplication';
+import ManageUser from './pages/ManageUser';
 import './App.css';
 
 function App() {
@@ -23,7 +24,12 @@ function App() {
           <Route path="dashboard" element={<Borrower />} />
           <Route path="loan-application" element={<LoanApplication />} />
         </Route>
+        <Route path="/admin">
+          <Route index element={<Navigate to="dashboard" />} />
+          <Route path="manage-user" element={<ManageUser />} />
+        </Route>
       </Routes>
+
     </div>
   );
 }
