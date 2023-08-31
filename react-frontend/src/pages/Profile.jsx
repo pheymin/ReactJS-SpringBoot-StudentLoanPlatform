@@ -32,19 +32,11 @@ const UploadDocument = () =>
 
 const Profile = () => {
     let userId = localStorage.getItem('userID')
-    let userType = localStorage.getItem('userType')
     const [user, setUser] = useState({})
 
     useEffect(() => {
         if (!userId) {
             window.location.href = '/login'
-        }
-        if (userType !== 'Borrower') {
-            if (userType === 'Lender') {
-                window.location.href = '/lender'
-            } else {
-                window.location.href = '/admin'
-            }
         }
 
         UserService.getUserById(userId)

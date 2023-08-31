@@ -8,6 +8,7 @@ import Profile from './pages/Profile';
 import Borrower from './pages/Borrower';
 import LoanApplication from './pages/LoanApplication';
 import ManageUser from './pages/ManageUser';
+import UpdateUser from './pages/UpdateUser';
 import './App.css';
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
         <Route path="/admin">
           <Route index element={<Navigate to="dashboard" />} />
           <Route path="manage-user" element={<ManageUser />} />
+          <Route path="update-user" element={<UpdateUser />}/>
         </Route>
       </Routes>
 

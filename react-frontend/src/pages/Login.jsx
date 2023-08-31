@@ -8,7 +8,20 @@ export default function Login() {
     const [password, setPassword] = React.useState('')
 
     useEffect(() => {
-      localStorage.clear();
+      //redirect to dashboard if user is already logged in
+      if (localStorage.getItem('userID')) {
+          switch (localStorage.getItem('userType')) {
+              case 'Borrower':
+                  window.location.href = '/borrower';
+                  break;
+              case 'Lender':
+                  window.location.href = '/lender';
+                  break;
+              case 'Admin':
+                  window.location.href = '/admin';
+                  break;
+          }
+      }
     }, []);
 
     const handleSubmit = async (e) => {

@@ -1,4 +1,4 @@
-import React, { useState} from 'react'
+import React, { useState, useEffect } from 'react'
 import UserService from '../services/userService'
 
 export default function Register() {
@@ -15,6 +15,23 @@ export default function Register() {
     const [phone, setPhone] = useState('')
     const [userType, setUserType] = useState('Borrower')
 
+    useEffect(() => {
+        //redirect to dashboard if user is already logged in
+        if (localStorage.getItem('userID')) {
+            switch (localStorage.getItem('userType')) {
+                case 'Borrower':
+                    window.location.href = '/borrower';
+                    break;
+                case 'Lender':
+                    window.location.href = '/lender';
+                    break;
+                case 'Admin':
+                    window.location.href = '/admin';
+                    break;
+            }
+        }
+    }, []);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -30,9 +47,10 @@ export default function Register() {
                 postcode,
                 phone,
                 userType,
+                status: 1,
                 photoUrl: "https://source.boringavatars.com/marble/120/" + ic,
             });
-
+            console.log(response.data);
             window.location.href = '/login';
         } catch (error) {
             alert(error.response.data);
@@ -236,7 +254,6 @@ export default function Register() {
                                 <select
                                     id="user-type"
                                     name="user-type"
-                                    autoComplete="user-type"
                                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                     required
                                     value={userType}

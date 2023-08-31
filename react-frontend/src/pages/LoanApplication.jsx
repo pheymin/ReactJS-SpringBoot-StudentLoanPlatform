@@ -19,7 +19,7 @@ const items = [
 
 const LoanApplication = () => {
     return (
-        <div className='w-9/12 mx-auto my-5 md:px-20 space-y-5'>
+        <div className='mx-auto w-4/5 my-5 md:px-20 space-y-5'>
             <h2>Loan Application</h2>
             <Tabs defaultActiveKey="1" items={items} />
         </div>
