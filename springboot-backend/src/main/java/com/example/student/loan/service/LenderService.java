@@ -1,6 +1,7 @@
 package com.example.student.loan.service;
 
 import com.example.student.loan.model.Lender;
+import com.example.student.loan.model.LenderDTO;
 import com.example.student.loan.repository.LenderRepository;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +17,12 @@ public class LenderService {
 
     public List<Lender> getAllLenders() {
         return lenderRepository.findAll();
+    }
+
+    public LenderDTO getLenderDTOById(Integer id) {
+        Lender lender = lenderRepository.findById(id).orElse(null);
+        if(lender == null) return null;
+        return LenderDTO.createDTO(lender);
     }
 
     public Lender getLenderById(Integer id) {

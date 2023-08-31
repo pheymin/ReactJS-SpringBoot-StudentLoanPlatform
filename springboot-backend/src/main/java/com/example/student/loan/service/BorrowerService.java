@@ -1,6 +1,7 @@
 package com.example.student.loan.service;
 
 import com.example.student.loan.model.Borrower;
+import com.example.student.loan.model.BorrowerDTO;
 import com.example.student.loan.repository.BorrowerRepository;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +17,12 @@ public class BorrowerService {
 
     public List<Borrower> getAllBorrowers() {
         return borrowerRepository.findAll();
+    }
+
+    public BorrowerDTO getBorrowerDTOById(Integer id) {
+        Borrower borrower = borrowerRepository.findById(id).orElse(null);
+        if(borrower == null) return null;
+        return BorrowerDTO.createDTO(borrower);
     }
 
     public Borrower getBorrowerById(Integer id) {

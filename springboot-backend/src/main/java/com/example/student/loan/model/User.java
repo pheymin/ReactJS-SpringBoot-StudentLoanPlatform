@@ -47,9 +47,12 @@ public class User {
     @Column(name = "status")
     private Integer status;
 
+    @Column(name = "photo_url")
+    private String photoUrl;
+
     public User(){}
 
-    public User(Integer userID, String name, String email, String password, String dob, String ic, String phone, String bankName, String bankAcc, String userType, String city, String street, String state, String postcode, Integer status) {
+    public User(Integer userID, String name, String email, String password, String dob, String ic, String phone, String bankName, String bankAcc, String userType, String city, String street, String state, String postcode, Integer status, String photoUrl) {
         this.userID = userID;
         this.name = name;
         this.email = email;
@@ -65,6 +68,7 @@ public class User {
         this.state = state;
         this.postcode = postcode;
         this.status = status;
+        this.photoUrl = photoUrl;
     }
 
     public Integer getUserID() {
@@ -187,6 +191,14 @@ public class User {
         this.status = status;
     }
 
+    public String getPhotoUrl() {
+        return photoUrl;
+    }
+
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -205,6 +217,7 @@ public class User {
                 ", state='" + state + '\'' +
                 ", postcode='" + postcode + '\'' +
                 ", status=" + status +
+                ", photoUrl='" + photoUrl + '\'' +
                 '}';
     }
 }

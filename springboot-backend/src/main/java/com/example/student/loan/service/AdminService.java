@@ -21,6 +21,12 @@ public class AdminService {
         return adminRepository.findAll();
     }
 
+    public AdminDTO getAdminDTOById(Integer id) {
+        Admin admin = adminRepository.findById(id).orElse(null);
+        if(admin == null) return null;
+        return AdminDTO.createDTO(admin);
+    }
+
     public Admin getAdminById(Integer id) {
         return adminRepository.findById(id).orElse(null);
     }
