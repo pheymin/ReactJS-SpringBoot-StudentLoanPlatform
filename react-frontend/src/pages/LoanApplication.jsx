@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Tabs } from 'antd';
 import Application from '../components/BorrowerApplication';
 import Agreement from '../components/BorrowerAgreement';
@@ -18,6 +18,14 @@ const items = [
 ];
 
 const LoanApplication = () => {
+
+    useEffect(() => {
+        let userType = localStorage.getItem('userType')
+        if (userType !== 'Borrower') {
+            window.location.href = '/';
+        }
+    }, [])
+
     return (
         <div className='mx-auto w-4/5 my-5 md:px-20 space-y-5'>
             <h2>Loan Application</h2>

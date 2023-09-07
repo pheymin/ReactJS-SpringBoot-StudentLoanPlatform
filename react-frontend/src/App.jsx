@@ -9,6 +9,7 @@ import Borrower from './pages/Borrower';
 import LoanApplication from './pages/LoanApplication';
 import ManageUser from './pages/ManageUser';
 import UpdateUser from './pages/UpdateUser';
+import PaymentOnboard from './pages/PaymentOnboard';
 import './App.css';
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
           <Route path="manage-user" element={<ManageUser />} />
           <Route path="update-user" element={<UpdateUser />}/>
         </Route>
+        <Route path="/payment-onboard" element={<PaymentOnboard />} />
       </Routes>
 
     </div>

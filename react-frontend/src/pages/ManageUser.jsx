@@ -131,7 +131,9 @@ const ManageUser = () => {
       okType: 'danger',
       cancelText: 'No',
       onOk() {
+        console.log(key);
         UserService.deleteUser(key).then((res) => {
+          console.log(res);
           setData(data.filter((user) => user.key !== key));
         })
       },
