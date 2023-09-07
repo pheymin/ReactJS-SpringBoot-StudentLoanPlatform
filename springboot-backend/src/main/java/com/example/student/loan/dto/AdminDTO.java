@@ -1,4 +1,6 @@
-package com.example.student.loan.model;
+package com.example.student.loan.dto;
+
+import com.example.student.loan.model.Admin;
 
 public class AdminDTO {
     private Integer adminID;

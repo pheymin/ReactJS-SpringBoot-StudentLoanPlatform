@@ -1,7 +1,7 @@
 package com.example.student.loan.service;
 
 import com.example.student.loan.model.Lender;
-import com.example.student.loan.model.LenderDTO;
+import com.example.student.loan.dto.LenderDTO;
 import com.example.student.loan.repository.LenderRepository;
 import org.springframework.stereotype.Service;
 

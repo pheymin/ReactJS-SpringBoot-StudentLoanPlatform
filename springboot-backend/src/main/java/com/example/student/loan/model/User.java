@@ -198,26 +198,4 @@ public class User {
     public void setPhotoUrl(String photoUrl) {
         this.photoUrl = photoUrl;
     }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "userID=" + userID +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", dob='" + dob + '\'' +
-                ", ic='" + ic + '\'' +
-                ", phone='" + phone + '\'' +
-                ", bankName='" + bankName + '\'' +
-                ", bankAcc='" + bankAcc + '\'' +
-                ", userType='" + userType + '\'' +
-                ", city='" + city + '\'' +
-                ", street='" + street + '\'' +
-                ", state='" + state + '\'' +
-                ", postcode='" + postcode + '\'' +
-                ", status=" + status +
-                ", photoUrl='" + photoUrl + '\'' +
-                '}';
-    }
 }

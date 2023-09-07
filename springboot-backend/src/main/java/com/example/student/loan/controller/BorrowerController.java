@@ -1,10 +1,8 @@
 package com.example.student.loan.controller;
 
 import com.example.student.loan.model.Borrower;
-import com.example.student.loan.model.BorrowerDTO;
-import com.example.student.loan.repository.BorrowerRepository;
+import com.example.student.loan.dto.BorrowerDTO;
 import com.example.student.loan.service.BorrowerService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

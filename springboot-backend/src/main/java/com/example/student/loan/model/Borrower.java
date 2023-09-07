@@ -25,22 +25,22 @@ public class Borrower {
     @Column(name = "course")
     private String course;
 
-    @Column(name = "course_duration")
-    private Date courseDuration;
+    @Column(name = "course_start")
+    private Date courseStart;
 
-    @Column(name = "exp_graduation")
-    private Date expGraduation;
+    @Column(name = "course_end")
+    private Date courseEnd;
 
     public Borrower() {}
 
-    public Borrower(Integer borrowerID, User user, String uniName, String levelOfStudy, String course, Date courseDuration, Date expGraduation) {
+    public Borrower(Integer borrowerID, User user, String uniName, String levelOfStudy, String course, Date courseStart, Date courseEnd) {
         this.borrowerID = borrowerID;
         this.user = user;
         this.uniName = uniName;
         this.levelOfStudy = levelOfStudy;
         this.course = course;
-        this.courseDuration = courseDuration;
-        this.expGraduation = expGraduation;
+        this.courseStart = courseStart;
+        this.courseEnd = courseEnd;
     }
 
     public Integer getBorrowerID() {
@@ -83,32 +83,20 @@ public class Borrower {
         this.course = course;
     }
 
-    public Date getCourseDuration() {
-        return courseDuration;
+    public Date getCourseStart() {
+        return courseStart;
     }
 
-    public void setCourseDuration(Date courseDuration) {
-        this.courseDuration = courseDuration;
+    public void setCourseStart(Date courseStart) {
+        this.courseStart = courseStart;
     }
 
-    public Date getExpGraduation() {
-        return expGraduation;
+    public Date getCourseEnd() {
+        return courseEnd;
     }
 
-    public void setExpGraduation(Date expGraduation) {
-        this.expGraduation = expGraduation;
+    public void setCourseEnd(Date courseEnd) {
+        this.courseEnd = courseEnd;
     }
 
-    @Override
-    public String toString() {
-        return "Borrower{" +
-                "borrowerID=" + borrowerID +
-                ", user=" + user +
-                ", uniName='" + uniName + '\'' +
-                ", levelOfStudy='" + levelOfStudy + '\'' +
-                ", course='" + course + '\'' +
-                ", courseDuration=" + courseDuration +
-                ", expGraduation=" + expGraduation +
-                '}';
-    }
 }

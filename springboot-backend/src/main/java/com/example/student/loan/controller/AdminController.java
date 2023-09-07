@@ -1,8 +1,7 @@
 package com.example.student.loan.controller;
 
 import com.example.student.loan.model.Admin;
-import com.example.student.loan.model.AdminDTO;
-import com.example.student.loan.repository.AdminRepository;
+import com.example.student.loan.dto.AdminDTO;
 import com.example.student.loan.service.AdminService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
