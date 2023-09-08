@@ -47,7 +47,7 @@ button {
 .btn-primary:hover {
   background-color: #ffffff;
   color: #4f46e5;
-  border: #4f46e5;
+  border: 1px solid #4f46e5;
   transition: background-color 0.3s ease;
 }
 

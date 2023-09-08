@@ -6,7 +6,19 @@ const UploadDocument = () => {
     const [offerLetter, setOfferLetter] = useState(null);
     const [transcript, setTranscript] = useState(null);
     const [ic, setIc] = useState(null);
+    const [documentsExist, setDocumentsExist] = useState(false);
+    const [documentData, setDocumentData] = useState([]);
+
     const userId = localStorage.getItem('userID');
+
+    useEffect(() => {
+        documentService.getDocumentsByUserId(userId).then((response) => {
+            if (response.data !== null) {
+                setDocumentsExist(true);
+                setDocumentData(response.data);
+            }
+        });
+    }, []);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -41,7 +53,7 @@ const UploadDocument = () => {
                 if (response.data == '200') {
                     alert('Document uploaded successfully.');
                     window.location.href = '/borrower/loan-application';
-                }else{
+                } else {
                     alert('Document upload failed.');
                 }
             });
@@ -50,51 +62,86 @@ const UploadDocument = () => {
         }
     };
 
+    const downloadFile = (fileUrl) => {
+        const link = document.createElement('a');
+        link.href = "document/" + fileUrl;
+        link.download = fileUrl.substring(fileUrl.lastIndexOf('/') + 1);
+        link.click();
+    };
+
+    const formatDocumentType = (documentType) => {
+        const formattedType = documentType.split('-').map((word) => {
+            return word.charAt(0).toUpperCase() + word.slice(1);
+        }).join(' ');
+
+        return formattedType;
+    };
+
+
     return (
-        <form className='space-y-5' onSubmit={handleSubmit}>
-            <hr />
-            <h2 className="text-base font-semibold leading-7 text-gray-900">Upload Document</h2>
-            <div className='space-y-5'>
-                <div className='flex flex-col space-y-2'>
-                    <label htmlFor="offer-letter">1. University Offer Letter <span className="text-sm font-medium leading-6 text-gray-400">(*Accepted file type: pdf)</span></label>
-                    <input
-                        type="file"
-                        id="offer-letter"
-                        accept="application/pdf"
-                        onChange={(e) => setOfferLetter(e.target.files[0])}
-                        required
-                    />
+        <div>
+            {documentsExist ? (
+                <div>
+                    <hr />
+                    <h2 className="text-base font-semibold leading-7 text-gray-900">Uploaded Documents</h2>
+                    <div className='space-y-5'>
+                        {documentData.map((document, index) => (
+                            <div key={index} className='flex flex-col space-y-2'>
+                                <label>{index + 1}. {formatDocumentType(document.documentType)}</label>
+                                <p>Document Name: {document.filePath}</p>
+                                <button onClick={() => downloadFile(document.filePath)} className='btn-primary w-1/4'>Download</button>
+                            </div>
+                        ))}
+                    </div>
                 </div>
-                <div className='flex flex-col space-y-2'>
-                    <label htmlFor="transcript">2. Academic Transcript <span className="text-sm font-medium leading-6 text-gray-400">(*Accepted file type: pdf)</span></label>
-                    <input
-                        type="file"
-                        id="transcript"
-                        accept="application/pdf"
-                        onChange={(e) => setTranscript(e.target.files[0])}
-                        required
-                    />
-                </div>
-                <div className='flex flex-col space-y-2'>
-                    <label htmlFor="ic">3. Identification Card <span className="text-sm font-medium leading-6 text-gray-400">*Accepted file type: png, jpg, jpeg, pdf</span></label>
-                    <input
-                        type="file"
-                        id="ic"
-                        accept="image/png, image/jpeg, application/pdf"
-                        onChange={(e) => setIc(e.target.files[0])}
-                        required
-                    />
-                </div>
-            </div>
-            <button
-                type="submit"
-                className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            >
-                Submit
-            </button>
-        </form>
+            ) : (
+                // Render this if documents do not exist
+                <form className='space-y-5' onSubmit={handleSubmit}>
+                    <hr />
+                    <h2 className="text-base font-semibold leading-7 text-gray-900">Upload Document</h2>
+                    <div className='space-y-5'>
+                        <div className='flex flex-col space-y-2'>
+                            <label htmlFor="offer-letter">1. University Offer Letter</label>
+                            <input
+                                type="file"
+                                id="offer-letter"
+                                accept="application/pdf"
+                                onChange={(e) => setOfferLetter(e.target.files[0])}
+                                required
+                            />
+                        </div>
+                        <div className='flex flex-col space-y-2'>
+                            <label htmlFor="transcript">2. Academic Transcript</label>
+                            <input
+                                type="file"
+                                id="transcript"
+                                accept="application/pdf"
+                                onChange={(e) => setTranscript(e.target.files[0])}
+                                required
+                            />
+                        </div>
+                        <div className='flex flex-col space-y-2'>
+                            <label htmlFor="ic">3. Identification Card</label>
+                            <input
+                                type="file"
+                                id="ic"
+                                accept="image/png, image/jpeg, application/pdf"
+                                onChange={(e) => setIc(e.target.files[0])}
+                                required
+                            />
+                        </div>
+                    </div>
+                    <button
+                        type="submit"
+                        className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                    >
+                        Submit
+                    </button>
+                </form>
+            )}
+        </div>
     );
-};
+}
 
 const Profile = () => {
     let userId = localStorage.getItem('userID')

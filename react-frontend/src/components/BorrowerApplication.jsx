@@ -1,10 +1,31 @@
-import React from 'react'
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react'
 import { DatePicker} from 'antd';
+import DocumentService from '../services/documentService';
+
 const { RangePicker } = DatePicker;
 
 const BorrowerApplication = () => {
+
+    useEffect(() => {
+        DocumentService.checkUserDocument(localStorage.getItem('userID')).then((response) => {
+            if (response.data != '200') {
+                alert('Please upload the required documents before applying for a loan.');
+                window.location.href = '/profile';
+            }
+        });
+    }, []);
+
     const [courseDuration, setCourseDuration] = useState(null);
+
+    const [loan, setLoan] = useState({
+        universityName: '',
+        levelOfStudy: '',
+        loanAmount: '',
+        course: '',
+        courseDuration: '',
+        interestRate: '',
+        loanPurpose: ''
+    });
 
     const handleSubmit = (e) => {
         e.preventDefault();
