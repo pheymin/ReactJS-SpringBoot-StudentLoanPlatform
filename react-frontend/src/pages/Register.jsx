@@ -14,6 +14,10 @@ export default function Register() {
     const [postcode, setPostcode] = useState('')
     const [phone, setPhone] = useState('')
     const [userType, setUserType] = useState('Borrower')
+    const [bankName, setBankName] = useState('')
+    const [bankAcc, setBankAcc] = useState('')
+    const [status, setStatus] = useState(1)
+    const [photoUrl, setPhotoUrl] = useState("https://source.boringavatars.com/marble/120/" + ic)
 
     useEffect(() => {
         //redirect to dashboard if user is already logged in
@@ -47,8 +51,10 @@ export default function Register() {
                 postcode,
                 phone,
                 userType,
-                status: 1,
-                photoUrl: "https://source.boringavatars.com/marble/120/" + ic,
+                status,
+                bankName,
+                bankAcc,
+                photoUrl
             });
             console.log(response.data);
             window.location.href = '/login';
@@ -227,7 +233,7 @@ export default function Register() {
                             </div>
                         </div>
 
-                        <div className="sm:col-span-2">
+                        <div className="sm:col-span-3">
                             <label htmlFor="phone" className="block text-sm font-medium leading-6 text-gray-900">
                                 Phone Number
                             </label>
@@ -246,7 +252,7 @@ export default function Register() {
                             </div>
                         </div>
 
-                        <div className="sm:col-span-2">
+                        <div className="sm:col-span-3">
                             <label htmlFor="user-type" className="block text-sm font-medium leading-6 text-gray-900">
                                 User Type
                             </label>
@@ -262,6 +268,43 @@ export default function Register() {
                                     <option value="Borrower">Borrower</option>
                                     <option value="Lender">Lender</option>
                                 </select>
+                            </div>
+                        </div>
+                        
+                        <div className="sm:col-span-3">
+                            <label htmlFor="bank" className="block text-sm font-medium leading-6 text-gray-900">
+                                Bank
+                            </label>
+                            <div className="mt-2">
+                                <input
+                                    type="text"
+                                    name="bank"
+                                    id="bank"
+                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    required
+                                    //contain alphabet and space
+                                    pattern="[A-Za-z\s]+"
+                                    title='Bank name must only contain alphabets'
+                                    onChange={(e) => setBankName(e.target.value)}
+                                />
+                            </div>
+                        </div>
+
+                        <div className="sm:col-span-3">
+                            <label htmlFor="bank-account" className="block text-sm font-medium leading-6 text-gray-900">
+                                Bank Account
+                            </label>
+                            <div className="mt-2">
+                                <input
+                                    type="text"
+                                    name="bank-account"
+                                    id="bank-account"
+                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    required
+                                    pattern="\d{10,11}"
+                                    title='Bank account must have 10-11 digits (without "-")'
+                                    onChange={(e) => setBankAcc(e.target.value)}
+                                />
                             </div>
                         </div>
                     </div>

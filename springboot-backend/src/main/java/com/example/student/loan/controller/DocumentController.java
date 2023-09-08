@@ -3,8 +3,12 @@ package com.example.student.loan.controller;
 import com.example.student.loan.model.Document;
 import com.example.student.loan.repository.DocumentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:5173/")
@@ -28,7 +32,7 @@ public class DocumentController {
 
     @PutMapping("/{id}")
     public Document updateDocument(@PathVariable Integer id, @RequestBody Document document) {
-        document.setDocumentID(id);
+        document.setDocID(id);
         return documentRepository.save(document);
     }
 
@@ -38,7 +42,53 @@ public class DocumentController {
     }
 
     @PostMapping
-    public Document createDocument(@RequestBody Document document) {
-        return documentRepository.save(document);
+    public String createDocuments(@RequestParam("file") MultipartFile[] files,
+                                  @RequestParam("userId") Integer[] userIds,
+                                  @RequestParam("docType") String[] docTypes) {
+        try {
+            // Process and save the uploaded files
+            for (int i = 0; i < files.length; i++) {
+                MultipartFile file = files[i];
+                Integer userId = userIds[i];
+                String docType = docTypes[i];
+
+                String fileName = file.getOriginalFilename();
+                String relativePath = "react-frontend\\src\\assets\\document";
+                String frontendBasePath = System.getProperty("user.dir");
+                String fullPath = frontendBasePath + File.separator + relativePath;
+                fullPath = fullPath.replace("\\springboot-backend", "");
+                File uploadDir = new File(fullPath);
+
+                if (!uploadDir.exists()) {
+                    uploadDir.mkdirs();
+                }
+
+                File destinationFile = new File(uploadDir, fileName);
+                file.transferTo(destinationFile);
+
+                // Create a Document object and save it to the database
+                Document document = new Document();
+                document.setUserID(userId);
+                document.setDocumentType(docType);
+                document.setFilePath(fileName);
+                documentRepository.save(document);
+            }
+
+            return "200";
+        } catch (IOException e) {
+            e.printStackTrace(); // Log the exception for debugging
+            return "500"; // Return a 500 error code for an internal server error
+        }
+    }
+
+    @GetMapping("/check/{id}")
+    public ResponseEntity<String> checkUserDocument(@PathVariable Integer id) {
+        Document document = documentRepository.findById(id).orElse(null);
+        if(document == null){
+            return ResponseEntity.ok("404");
+        }
+        else{
+            return ResponseEntity.ok("200");
+        }
     }
 }

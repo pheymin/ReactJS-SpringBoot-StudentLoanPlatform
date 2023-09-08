@@ -7,13 +7,13 @@ const items = [
     {
         key: '1',
         label: 'Loan Application',
-        children: <Application />,
+        children: <Application />
     },
     {
         key: '2',
         label: 'Loan Agreement',
         children: <Agreement />,
-        // disabled: true,
+        disabled: true,
     }
 ];
 
@@ -21,7 +21,7 @@ const LoanApplication = () => {
     return (
         <div className='mx-auto w-4/5 my-5 md:px-20 space-y-5'>
             <h2>Loan Application</h2>
-            <Tabs defaultActiveKey="1" items={items} />
+            <Tabs defaultActiveKey="1" items={items}/>
         </div>
     )
 }

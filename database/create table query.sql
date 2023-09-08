@@ -47,10 +47,9 @@ CREATE TABLE Admin (
 CREATE TABLE Document (
     docID INT AUTO_INCREMENT PRIMARY KEY,
     borrowerID INT NOT NULL,
-    docName VARCHAR(255) NOT NULL,
-    docType VARCHAR(255) NOT NULL,
-    filePath VARCHAR(255) NOT NULL,
-    uploadDate DATE NOT NULL,
+    doc_type VARCHAR(255) NOT NULL,
+    file_ath VARCHAR(255) NOT NULL,
+    upload_date DATE NOT NULL,
     FOREIGN KEY (borrowerID) REFERENCES Borrower(borrowerID)
 );
 
@@ -61,7 +60,6 @@ CREATE TABLE Loan (
     lenderID INT NOT NULL,
     loanAmount FLOAT NOT NULL,
     loanDuration DATE NOT NULL,
-    interestRate FLOAT NOT NULL,
     termsNConditions VARCHAR(255) NOT NULL,
     loanPurpose VARCHAR(255) NOT NULL,
     appliedDate DATE NOT NULL,
@@ -70,4 +68,14 @@ CREATE TABLE Loan (
     loanStatus VARCHAR(50) NOT NULL,
     FOREIGN KEY (borrowerID) REFERENCES Borrower(borrowerID),
     FOREIGN KEY (lenderID) REFERENCES Lender(lenderID)
+);
+
+
+CREATE TABLE Transaction (
+    transactionID INT AUTO_INCREMENT PRIMARY KEY,
+    loanID INT NOT NULL,
+    amount DECIMAL(10, 2) NOT NULL,
+    created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    transaction_type ENUM('lender_to_borrower', 'borrower_to_lender') NOT NULL,
+    FOREIGN KEY (loanID) REFERENCES loan(loanID)
 );

@@ -7,11 +7,10 @@ import jakarta.persistence.*;
 public class Document {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer documentID;
+    private Integer docID;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "userID")
-    private User user;
+    @Column(name = "userID")
+    private Integer userID;
 
     @Column(name = "doc_type")
     private String documentType;
@@ -19,33 +18,29 @@ public class Document {
     @Column(name = "file_path")
     private String filePath;
 
-    @Column(name = "upload_date")
-    private String uploadDate;
-
     public Document() {}
 
-    public Document(Integer documentID, User user, String documentType, String filePath, String uploadDate) {
-        this.documentID = documentID;
-        this.user = user;
+    public Document(Integer docID, Integer userID, String documentType, String filePath) {
+        this.docID = docID;
+        this.userID = userID;
         this.documentType = documentType;
         this.filePath = filePath;
-        this.uploadDate = uploadDate;
     }
 
-    public Integer getDocumentID() {
-        return documentID;
+    public Integer getDocID() {
+        return docID;
     }
 
-    public void setDocumentID(Integer documentID) {
-        this.documentID = documentID;
+    public void setDocID(Integer docID) {
+        this.docID = docID;
     }
 
-    public User getUser() {
-        return user;
+    public Integer getUserID() {
+        return userID;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserID(Integer userID) {
+        this.userID = userID;
     }
 
     public String getDocumentType() {
@@ -62,13 +57,5 @@ public class Document {
 
     public void setFilePath(String filePath) {
         this.filePath = filePath;
-    }
-
-    public String getUploadDate() {
-        return uploadDate;
-    }
-
-    public void setUploadDate(String uploadDate) {
-        this.uploadDate = uploadDate;
     }
 }

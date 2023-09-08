@@ -83,6 +83,10 @@ public class UserController {
             newUser.setStreet(registerRequest.getStreet());
             newUser.setState(registerRequest.getState());
             newUser.setPostcode(registerRequest.getPostcode());
+            newUser.setStatus(registerRequest.getStatus());
+            newUser.setPhotoUrl(registerRequest.getPhotoUrl());
+            newUser.setBankName(registerRequest.getBankName());
+            newUser.setBankAcc(registerRequest.getBankAcc());
 
             // Save the user to the User table
             newUser = userRepository.save(newUser);
