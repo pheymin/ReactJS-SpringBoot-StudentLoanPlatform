@@ -30,6 +30,9 @@ public class DocumentController {
     @GetMapping("/{id}")
     public Document getDocumentById(@PathVariable Integer id){ return documentRepository.findById(id).orElse(null);}
 
+    @GetMapping("/user/{id}")
+    public List<Document> getDocumentByUserId(@PathVariable Integer id){ return documentRepository.findByUserID(id);}
+
     @PutMapping("/{id}")
     public Document updateDocument(@PathVariable Integer id, @RequestBody Document document) {
         document.setDocID(id);
@@ -53,7 +56,7 @@ public class DocumentController {
                 String docType = docTypes[i];
 
                 String fileName = file.getOriginalFilename();
-                String relativePath = "react-frontend\\src\\assets\\document";
+                String relativePath = "react-frontend\\public\\document";
                 String frontendBasePath = System.getProperty("user.dir");
                 String fullPath = frontendBasePath + File.separator + relativePath;
                 fullPath = fullPath.replace("\\springboot-backend", "");

@@ -5,6 +5,7 @@ import java.util.Date;
 
 public class BorrowerDTO {
     private Integer borrowerID;
+    private Integer userID;
     private String name;
     private String email;
     private String password;
@@ -22,14 +23,15 @@ public class BorrowerDTO {
     private String uniName;
     private String levelOfStudy;
     private String course;
-    private Date courseDuration;
-    private Date expGraduation;
+    private Date courseStart;
+    private Date courseEnd;
 
     public BorrowerDTO() {
     }
 
-    public BorrowerDTO(Integer borrowerID, String name, String email, String password, String dob, String ic, String phone, String bankName, String bankAcc, String userType, String city, String street, String state, String postcode, Integer status, String uniName, String levelOfStudy, String course, Date courseDuration, Date expGraduation) {
+    public BorrowerDTO(Integer borrowerID, Integer userID, String name, String email, String password, String dob, String ic, String phone, String bankName, String bankAcc, String userType, String city, String street, String state, String postcode, Integer status, String uniName, String levelOfStudy, String course, Date courseStart, Date courseEnd) {
         this.borrowerID = borrowerID;
+        this.userID = userID;
         this.name = name;
         this.email = email;
         this.password = password;
@@ -47,13 +49,14 @@ public class BorrowerDTO {
         this.uniName = uniName;
         this.levelOfStudy = levelOfStudy;
         this.course = course;
-        this.courseDuration = courseDuration;
-        this.expGraduation = expGraduation;
+        this.courseStart = courseStart;
+        this.courseEnd = courseEnd;
     }
 
     public static BorrowerDTO createDTO(Borrower borrower) {
         BorrowerDTO dto = new BorrowerDTO(
                 borrower.getBorrowerID(),
+                borrower.getUser().getUserID(),
                 borrower.getUser().getName(),
                 borrower.getUser().getEmail(),
                 borrower.getUser().getPassword(),
@@ -71,8 +74,8 @@ public class BorrowerDTO {
                 borrower.getUniName(),
                 borrower.getLevelOfStudy(),
                 borrower.getCourse(),
-                borrower.getCourseDuration(),
-                borrower.getExpGraduation()
+                borrower.getCourseStart(),
+                borrower.getCourseEnd()
         );
 
         return dto;
@@ -84,6 +87,14 @@ public class BorrowerDTO {
 
     public void setBorrowerID(Integer borrowerID) {
         this.borrowerID = borrowerID;
+    }
+
+    public Integer getUserID() {
+        return userID;
+    }
+
+    public void setUserID(Integer userID) {
+        this.userID = userID;
     }
 
     public String getName() {
@@ -222,19 +233,19 @@ public class BorrowerDTO {
         this.course = course;
     }
 
-    public Date getCourseDuration() {
-        return courseDuration;
+    public Date getCourseStart() {
+        return courseStart;
     }
 
-    public void setCourseDuration(Date courseDuration) {
-        this.courseDuration = courseDuration;
+    public void setCourseStart(Date courseStart) {
+        this.courseStart = courseStart;
     }
 
-    public Date getExpGraduation() {
-        return expGraduation;
+    public Date getCourseEnd() {
+        return courseEnd;
     }
 
-    public void setExpGraduation(Date expGraduation) {
-        this.expGraduation = expGraduation;
+    public void setCourseEnd(Date courseEnd) {
+        this.courseEnd = courseEnd;
     }
 }

@@ -5,6 +5,7 @@ import com.example.student.loan.model.BorrowerDTO;
 import com.example.student.loan.repository.BorrowerRepository;
 import com.example.student.loan.service.BorrowerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -51,11 +52,28 @@ public class BorrowerController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<BorrowerDTO> updateBorrower(@PathVariable Integer id, @RequestBody Borrower borrower) {
-        Borrower updatedBorrower = borrowerService.updateBorrower(id, borrower);
-        BorrowerDTO borrowerDTO = BorrowerDTO.createDTO(updatedBorrower);
+    public ResponseEntity<BorrowerDTO> updateBorrower(@PathVariable Integer id, @RequestBody BorrowerDTO borrower) {
+        Borrower existingBorrower = borrowerService.findBorrowerIDByUserID(id);
 
-        return ResponseEntity.ok(borrowerDTO);
+        if (existingBorrower == null) {
+            return ResponseEntity.notFound().build();
+        }
+        try{
+            Borrower updatedBorrower = existingBorrower;
+            updatedBorrower.setUniName(borrower.getUniName());
+            updatedBorrower.setLevelOfStudy(borrower.getLevelOfStudy());
+            updatedBorrower.setCourse(borrower.getCourse());
+            updatedBorrower.setCourseStart(borrower.getCourseStart());
+            updatedBorrower.setCourseEnd(borrower.getCourseEnd());
+
+            Borrower savedBorrower = borrowerService.updateBorrower(updatedBorrower);
+            BorrowerDTO updatedBorrowerDTO = BorrowerDTO.createDTO(savedBorrower);
+
+            return ResponseEntity.ok(updatedBorrowerDTO);
+        }
+        catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     @DeleteMapping("/{id}")

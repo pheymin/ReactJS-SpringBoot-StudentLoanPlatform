@@ -33,12 +33,15 @@ public class BorrowerService {
         return borrowerRepository.save(borrower);
     }
 
-    public Borrower updateBorrower(Integer id, Borrower borrower) {
-        borrower.setBorrowerID(id);
+    public Borrower updateBorrower(Borrower borrower) {
         return borrowerRepository.save(borrower);
     }
 
     public void deleteBorrower(Integer id) {
         borrowerRepository.deleteById(id);
+    }
+
+    public Borrower findBorrowerIDByUserID(Integer userID) {
+        return borrowerRepository.findBorrowerIDByUserUserID(userID);
     }
 }

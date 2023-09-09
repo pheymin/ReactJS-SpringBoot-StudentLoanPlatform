@@ -1,7 +1,9 @@
 package com.example.student.loan.controller;
 
+import com.example.student.loan.model.Borrower;
 import com.example.student.loan.model.Loan;
 import com.example.student.loan.repository.LoanRepository;
+import com.example.student.loan.service.BorrowerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,8 +16,11 @@ public class LoanController {
     @Autowired
     private final LoanRepository loanRepository;
 
-    public LoanController(LoanRepository loanRepository) {
+    private final BorrowerService borrowerService;
+
+    public LoanController(LoanRepository loanRepository, BorrowerService borrowerService) {
         this.loanRepository = loanRepository;
+        this.borrowerService = borrowerService;
     }
 
     @GetMapping
@@ -28,7 +33,6 @@ public class LoanController {
 
     @PutMapping("/{id}")
     public Loan updateLoan(@PathVariable Integer id, @RequestBody Loan loan) {
-        loan.setLoanID(id);
         return loanRepository.save(loan);
     }
 
@@ -39,6 +43,18 @@ public class LoanController {
 
     @PostMapping
     public Loan createLoan(@RequestBody Loan loan) {
+        System.out.println(loan.getBorrowerID());
         return loanRepository.save(loan);
+    }
+
+    @GetMapping("/user/{id}")
+    public Loan getLoanByBorrowerID(@PathVariable Integer id) {
+        Borrower existingBorrower = borrowerService.findBorrowerIDByUserID(id);
+        if (existingBorrower == null) {
+            return null;
+        }
+        //get borrower id from borrower object
+        Integer borrowerId = existingBorrower.getBorrowerID();
+        return loanRepository.findLoanByBorrowerID(borrowerId);
     }
 }

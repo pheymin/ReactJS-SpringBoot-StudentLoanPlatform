@@ -2,6 +2,8 @@ package com.example.student.loan.model;
 
 import jakarta.persistence.*;
 
+import java.util.Date;
+
 @Entity
 @Table(name = "Loan")
 public class Loan {
@@ -9,22 +11,22 @@ public class Loan {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer loanID;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "borrowerID")
-    private User borrower;
+    @Column(name = "borrowerID")
+    private Integer borrowerID;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "lenderID")
-    private User lender;
+    @Column(name = "lenderID")
+    private Integer lenderID;
 
     @Column(name = "loan_amount")
     private Double loanAmount;
 
     @Column(name = "loan_duration_start")
-    private String loanDurationStart;
+    @Temporal(TemporalType.DATE)
+    private Date loanDurationStart;
 
     @Column(name = "loan_duration_end")
-    private String loanDurationEnd;
+    @Temporal(TemporalType.DATE)
+    private Date loanDurationEnd;
 
     @Column(name = "loan_status")
     private String loanStatus;
@@ -33,15 +35,17 @@ public class Loan {
     private String loanPurpose;
 
     @Column(name = "applied_date")
-    private String appliedDate;
+    @Temporal(TemporalType.DATE)
+    private Date appliedDate;
 
     @Column(name = "approved_date")
-    private String approvedDate;
+    @Temporal(TemporalType.DATE)
+    private Date approvedDate;
 
-    public Loan(Integer loanID, User borrower, User lender, Double loanAmount, String loanDurationStart, String loanDurationEnd, String loanStatus, String loanPurpose, String appliedDate, String approvedDate) {
+    public Loan(Integer loanID, Integer borrowerID, Integer lenderID, Double loanAmount, Date loanDurationStart, Date loanDurationEnd, String loanStatus, String loanPurpose, Date appliedDate, Date approvedDate) {
         this.loanID = loanID;
-        this.borrower = borrower;
-        this.lender = lender;
+        this.borrowerID = borrowerID;
+        this.lenderID = lenderID;
         this.loanAmount = loanAmount;
         this.loanDurationStart = loanDurationStart;
         this.loanDurationEnd = loanDurationEnd;
@@ -61,20 +65,20 @@ public class Loan {
         this.loanID = loanID;
     }
 
-    public User getBorrower() {
-        return borrower;
+    public Integer getBorrowerID() {
+        return borrowerID;
     }
 
-    public void setBorrower(User borrower) {
-        this.borrower = borrower;
+    public void setBorrowerID(Integer borrowerID) {
+        this.borrowerID = borrowerID;
     }
 
-    public User getLender() {
-        return lender;
+    public Integer getLenderID() {
+        return lenderID;
     }
 
-    public void setLender(User lender) {
-        this.lender = lender;
+    public void setLenderID(Integer lenderID) {
+        this.lenderID = lenderID;
     }
 
     public Double getLoanAmount() {
@@ -85,19 +89,19 @@ public class Loan {
         this.loanAmount = loanAmount;
     }
 
-    public String getLoanDurationStart() {
+    public Date getLoanDurationStart() {
         return loanDurationStart;
     }
 
-    public void setLoanDurationStart(String loanDurationStart) {
+    public void setLoanDurationStart(Date loanDurationStart) {
         this.loanDurationStart = loanDurationStart;
     }
 
-    public String getLoanDurationEnd() {
+    public Date getLoanDurationEnd() {
         return loanDurationEnd;
     }
 
-    public void setLoanDurationEnd(String loanDurationEnd) {
+    public void setLoanDurationEnd(Date loanDurationEnd) {
         this.loanDurationEnd = loanDurationEnd;
     }
 
@@ -117,19 +121,19 @@ public class Loan {
         this.loanPurpose = loanPurpose;
     }
 
-    public String getAppliedDate() {
+    public Date getAppliedDate() {
         return appliedDate;
     }
 
-    public void setAppliedDate(String appliedDate) {
+    public void setAppliedDate(Date appliedDate) {
         this.appliedDate = appliedDate;
     }
 
-    public String getApprovedDate() {
+    public Date getApprovedDate() {
         return approvedDate;
     }
 
-    public void setApprovedDate(String approvedDate) {
+    public void setApprovedDate(Date approvedDate) {
         this.approvedDate = approvedDate;
     }
 }
