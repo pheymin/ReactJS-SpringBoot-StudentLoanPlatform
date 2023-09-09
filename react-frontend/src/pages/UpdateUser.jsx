@@ -40,8 +40,7 @@ const UpdateForm = () => {
         e.preventDefault();
 
         try {
-            const response = await UserService.updateUser(user, userId);
-            console.log(response.data);
+            await UserService.updateUser(user, userId);
             alert(user.name + 'information updated');
         } catch (error) {
             alert(error.response.data);

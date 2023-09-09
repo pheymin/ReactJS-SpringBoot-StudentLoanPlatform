@@ -39,7 +39,7 @@ export default function Register() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await UserService.createUser({
+            await UserService.createUser({
                 email,
                 password,
                 name,
@@ -56,7 +56,6 @@ export default function Register() {
                 bankAcc,
                 photoUrl
             });
-            console.log(response.data);
             window.location.href = '/login';
         } catch (error) {
             alert(error.response.data);

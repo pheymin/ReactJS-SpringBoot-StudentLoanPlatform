@@ -13,7 +13,7 @@ const UploadDocument = () => {
 
     useEffect(() => {
         documentService.getDocumentsByUserId(userId).then((response) => {
-            if (response.data !== null) {
+            if (response.data.length > 0) {
                 setDocumentsExist(true);
                 setDocumentData(response.data);
             }
@@ -95,7 +95,6 @@ const UploadDocument = () => {
                     </div>
                 </div>
             ) : (
-                // Render this if documents do not exist
                 <form className='space-y-5' onSubmit={handleSubmit}>
                     <hr />
                     <h2 className="text-base font-semibold leading-7 text-gray-900">Upload Document</h2>

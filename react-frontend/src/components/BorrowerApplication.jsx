@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import { DatePicker} from 'antd';
+import { DatePicker } from 'antd';
 import DocumentService from '../services/documentService';
+import BorrowerService from '../services/BorrowerService';
+import LoanService from '../services/LoanService';
 
 const { RangePicker } = DatePicker;
 
-const BorrowerApplication = () => {
+const Form = () => {
 
     useEffect(() => {
         DocumentService.checkUserDocument(localStorage.getItem('userID')).then((response) => {
@@ -15,54 +17,92 @@ const BorrowerApplication = () => {
         });
     }, []);
 
-    const [courseDuration, setCourseDuration] = useState(null);
+    const [borrower, setBorrower] = useState({
+        userID: localStorage.getItem('userID'),
+        uniName: '',
+        levelOfStudy: 'Degree',
+        course: '',
+        courseStart: '',
+        courseEnd: ''
+    });
 
     const [loan, setLoan] = useState({
-        universityName: '',
-        levelOfStudy: '',
+        borrowerID: '',
         loanAmount: '',
-        course: '',
-        courseDuration: '',
-        interestRate: '',
-        loanPurpose: ''
+        loanDurationStart: '',
+        loanDurationEnd: '',
+        loanPurpose: '',
+        appliedDate: new Date().toISOString().slice(0, 10),
+        loanStatus: 'Pending'
     });
+
+    const [loanDuration, setLoanDuration] = useState([]);
+
+    const formatDate = (date) => date.toISOString().slice(0, 10);
+
+    const handleLoanDurationChange = (selectedDuration) => {
+        setLoanDuration(selectedDuration);
+        const courseStart = formatDate(selectedDuration[0]);
+        const courseEnd = formatDate(selectedDuration[1]);
+
+        setBorrower({ ...borrower, courseStart, courseEnd });
+        setLoan({ ...loan, loanDurationStart: courseStart, loanDurationEnd: courseEnd });
+    };
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setBorrower({ ...borrower, [name]: value });
+        setLoan({ ...loan, [name]: value });
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-    
-        if (courseDuration === null) {
+
+        if (loanDuration.length == 0) {
             alert('Please select the course duration.');
             return;
         }
+
+        BorrowerService.updateBorrower(borrower, localStorage.getItem('userID')).then((response) => {
+            //get borrower id
+            setLoan({ ...loan, borrowerID: response.data.borrowerID });
+            console.log(loan);
+            LoanService.createLoan(loan).then((response) => {
+                alert('Loan application submitted successfully.');
+                // window.location.href = '/borrower';
+            });
+        });
     };
 
     return (
-        <form className='space-y-5'>
+        <form className='space-y-5' onSubmit={handleSubmit}>
             <div className="mt-4 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2">
                 <div className='md:col-span-2 space-y-2'>
-                    <label htmlFor="uni-name" className="block text-sm font-medium leading-6 text-gray-900">
+                    <label htmlFor="uniName" className="block text-sm font-medium leading-6 text-gray-900">
                         University Name
                     </label>
                     <input
                         type="text"
-                        name="uni-name"
-                        id="uni-name"
+                        name="uniName"
+                        id="uniName"
                         className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         required
+                        onChange={handleInputChange}
                     />
                 </div>
 
                 <div className='space-y-2'>
-                    <label htmlFor="level-of-study" className="block text-sm font-medium leading-6 text-gray-900">
+                    <label htmlFor="levelOfStudy" className="block text-sm font-medium leading-6 text-gray-900">
                         Level of Study
                     </label>
                     <select
                         type="text"
-                        name="level-of-study"
-                        id="level-of-study"
+                        name="levelOfStudy"
+                        id="levelOfStudy"
                         className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         required
                         value={'Degree'}
+                        onChange={handleInputChange}
                     >
                         <option value="Diploma">Diploma</option>
                         <option value="Degree">Degree</option>
@@ -72,16 +112,17 @@ const BorrowerApplication = () => {
                 </div>
 
                 <div className='space-y-2'>
-                    <label htmlFor="loan-amount" className="block text-sm font-medium leading-6 text-gray-900">
+                    <label htmlFor="loanAmount" className="block text-sm font-medium leading-6 text-gray-900">
                         Loan Amount
                     </label>
                     <input
                         type="number"
-                        step="0.01" 
-                        name="loan-amount"
-                        id="loan-amount"
+                        step="0.01"
+                        name="loanAmount"
+                        id="loanAmount"
                         className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         required
+                        onChange={handleInputChange}
                     />
                 </div>
 
@@ -95,44 +136,44 @@ const BorrowerApplication = () => {
                         id="course"
                         className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         required
+                        onChange={handleInputChange}
                     />
                 </div>
 
                 <div className='space-y-2'>
-                    <label htmlFor="phone" className="block text-sm font-medium leading-6 text-gray-900">
+                    <label htmlFor="loanDuration" className="block text-sm font-medium leading-6 text-gray-900">
                         Loan Duration
                     </label>
                     <RangePicker
-                        name="loan-duration"
-                        id="loan-duration"
+                        name="loanDuration"
+                        id="loanDuration"
                         className='w-full py-1.5'
                         disabled
-                        value={courseDuration}
-                    />
-                </div>
-                
-                <div className='space-y-2'>
-                    <label htmlFor="course-duration" className="block text-sm font-medium leading-6 text-gray-900">
-                        Course Duration
-                    </label>
-                    <RangePicker
-                        name="course-duration"
-                        id="course-duration"
-                        required
-                        className='w-full py-1.5'
-                        onChange={(value) => setCourseDuration(value)}
+                        value={loanDuration}
                     />
                 </div>
 
                 <div className='space-y-2'>
-                    <label htmlFor="interest-rate" className="block text-sm font-medium leading-6 text-gray-900">
+                    <label htmlFor="courseDuration" className="block text-sm font-medium leading-6 text-gray-900">
+                        Course Duration
+                    </label>
+                    <RangePicker
+                        name="courseDuration"
+                        id="courseDuration"
+                        required
+                        className='w-full py-1.5'
+                        onChange={handleLoanDurationChange}
+                    />
+                </div>
+
+                <div className='space-y-2'>
+                    <label htmlFor="interestRate" className="block text-sm font-medium leading-6 text-gray-900">
                         Interest Rate
                     </label>
                     <input
                         type="text"
-                        name="interest-rate"
-                        id="interest-rate"
-                        autoComplete="interest-rate"
+                        name="interestRate"
+                        id="interestRate"
                         value={3 + '%'}
                         disabled
                         className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -140,21 +181,21 @@ const BorrowerApplication = () => {
                 </div>
 
                 <div className='space-y-2'>
-                    <label htmlFor="loan-purpose" className="block text-sm font-medium leading-6 text-gray-900">
+                    <label htmlFor="loanPurpose" className="block text-sm font-medium leading-6 text-gray-900">
                         Loan Purpose
                     </label>
                     <input
                         type="text"
-                        name="loan-purpose"
-                        id="loan-purpose"
+                        name="loanPurpose"
+                        id="loanPurpose"
                         required
+                        onChange={handleInputChange}
                         className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     />
                 </div>
             </div>
             <button
                 type="submit"
-                onClick={handleSubmit}
                 className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
                 Submit
@@ -162,5 +203,101 @@ const BorrowerApplication = () => {
         </form>
     )
 }
+
+const FilledForm = ({ loan, borrower }) => {
+    
+    return (
+        <>
+            <div className="mt-4 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2">
+                <div className='md:col-span-2 space-y-2'>
+                    <label htmlFor="uniName" className="block text-sm font-medium leading-6 text-gray-900">
+                        University Name
+                    </label>
+                    <p>{borrower.uniName}</p>
+                </div>
+
+                <div className='space-y-2'>
+                    <label htmlFor="levelOfStudy" className="block text-sm font-medium leading-6 text-gray-900">
+                        Level of Study
+                    </label>
+                    <p>{borrower.levelOfStudy}</p>
+                </div>
+
+                <div className='space-y-2'>
+                    <label htmlFor="loanAmount" className="block text-sm font-medium leading-6 text-gray-900">
+                        Loan Amount
+                    </label>
+                    <p>{loan.loanAmount}</p>
+                </div>
+
+                <div className='space-y-2'>
+                    <label htmlFor="course" className="block text-sm font-medium leading-6 text-gray-900">
+                        Course
+                    </label>
+                    <p>{borrower.course}</p>
+                </div>
+
+                <div className='space-y-2'>
+                    <label htmlFor="loanDuration" className="block text-sm font-medium leading-6 text-gray-900">
+                        Loan Duration
+                    </label>
+                    <p>From {loan.loanDurationStart} to {loan.loanDurationEnd}</p>
+                </div>
+
+                <div className='space-y-2'>
+                    <label htmlFor="courseDuration" className="block text-sm font-medium leading-6 text-gray-900">
+                        Course Duration
+                    </label>
+                    <p>From {loan.loanDurationStart} to {loan.loanDurationEnd}</p>
+                </div>
+
+                <div className='space-y-2'>
+                    <label htmlFor="interestRate" className="block text-sm font-medium leading-6 text-gray-900">
+                        Interest Rate
+                    </label>
+                    <p>3%</p>
+                </div>
+
+                <div className='space-y-2'>
+                    <label htmlFor="loanPurpose" className="block text-sm font-medium leading-6 text-gray-900">
+                        Loan Purpose
+                    </label>
+                    <p>{loan.loanPurpose}</p>
+                </div>
+            </div>
+        </>
+    )
+}
+
+const BorrowerApplication = () => {
+    const [loan, setLoan] = useState(null);
+    const [borrower, setBorrower] = useState(null);
+    const [isLoading, setIsLoading] = useState(true); // Add isLoading state
+
+    useEffect(() => {
+        LoanService.getLoanByBorrowerID(localStorage.getItem('userID')).then((response) => {
+            if (response.data != null) {
+                setLoan(response.data);
+                BorrowerService.getBorrowerById(response.data.borrowerID).then((response) => {
+                    setBorrower(response.data);
+                    setIsLoading(false); // Set isLoading to false when borrower data is available
+                });
+            }
+        });
+    }, []);
+
+    return (
+        <div className='space-y-5'>
+            {isLoading ? (
+                <p>Loading...</p>
+            ) : loan ? (
+                <FilledForm loan={loan} borrower={borrower} />
+            ) : (
+                <Form />
+            )}
+        </div>
+    );
+};
+
 
 export default BorrowerApplication

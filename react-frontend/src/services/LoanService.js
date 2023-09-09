@@ -22,6 +22,10 @@ class LoanService{
     deleteLoan(id){
         return axios.delete(API_URL + '/' + id);
     }
+
+    getLoanByBorrowerID(id){
+        return axios.get(API_URL + '/user/' + id);
+    }
 }
 
 export default new LoanService();
