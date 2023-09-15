@@ -38,6 +38,18 @@ class LoanService{
     getLoanBorrowerByLoanID(id){
         return axios.get(API_URL + '/loanborrower/' + id);
     }
+
+    getLoanBorrowerByLenderID(id){
+        return axios.get(API_URL + '/loanborrower/lender/' + id);
+    }
+
+    borrowerSign(loan){
+        return axios.post(API_URL + '/borrowersign', loan);
+    }
+
+    getLoanBorrower(){
+        return axios.get(API_URL + '/loanborrower');
+    }
 }
 
 export default new LoanService();

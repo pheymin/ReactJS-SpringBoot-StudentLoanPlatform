@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import LoanService from '../services/LoanService';
 import UserService from '../services/userService';
+import LenderService from '../services/LenderService';
 
 const BorrowerAgreement = (loanID) => {
 
@@ -29,11 +30,12 @@ const BorrowerAgreement = (loanID) => {
                             .catch((err) => {
                                 console.log(err);
                             });
-                    } else {
+                    } else{
                         const lenderId = loan.lenderID;
                         LenderService.getLenderById(lenderId)
                             .then((response) => {
                                 formattedData.lenderName = response.data.name;
+                                formattedData.approvedDate = loan.approvedDate;
                                 setAgreement(formattedData);
                             })
                             .catch((err) => {
@@ -44,10 +46,7 @@ const BorrowerAgreement = (loanID) => {
                     console.log("Loan or borrower data is missing.");
                 }
             })
-            .catch((err) => {
-                console.log(err);
-            });
-    }, []);
+    }, [loanID.loanID]);
 
     function getCurrentDate() {
         const currentDate = new Date();
@@ -59,11 +58,12 @@ const BorrowerAgreement = (loanID) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        let userID = parseInt(localStorage.getItem('userID'));
         if (agreement.loanStatus === 'Pending') {
             const loan = {
                 loanID: agreement.key,
                 loanStatus: 'Lender Signed',
-                userID: parseInt(localStorage.getItem('userID'))
+                userID: userID
             }
             try {
                 const response = await LoanService.fundUser(loan);
@@ -76,19 +76,18 @@ const BorrowerAgreement = (loanID) => {
             } catch (error) {
                 alert(error.response.data);
             }
-        } else if(agreement.loanStatus === 'Lender Signed'){
+        } else if (agreement.loanStatus === 'Lender Signed') {
             const loan = {
                 loanID: agreement.key,
-                loanStatus: 'Borrower Signed',
-                userID: localStorage.getItem('userID'),
+                loanStatus: 'Borrower Signed'
             }
             try {
-                // const response = await LoanService.fundUser(loan);
-                // if (response.status === 200) {
-                //     alert('Loan agreement signed successfully.');
-                // } else {
-                //     alert('Loan agreement signing failed.');
-                // }
+                const response = await LoanService.borrowerSign(loan);
+                if (response.status === 200) {
+                    alert('Loan agreement signed successfully.');
+                } else {
+                    alert('Loan agreement signing failed.');
+                }
             } catch (error) {
                 alert(error.response.data);
             }
@@ -128,7 +127,11 @@ const BorrowerAgreement = (loanID) => {
                             <h4 className='font-bold'>Lender</h4>
                             <h2><em>{agreement.lenderName}</em></h2>
                             <p>Name: {agreement.lenderName}</p>
-                            <p>Date: {getCurrentDate()}</p>
+                            {agreement.approvedDate ? (
+                                <p>Date: {agreement.approvedDate}</p>
+                            ) : (
+                                <p>Date: {getCurrentDate()}</p>
+                            )}
                         </div>
                         <div className='space-y-1'>
                             <h4 className='font-bold'>Borrower</h4>

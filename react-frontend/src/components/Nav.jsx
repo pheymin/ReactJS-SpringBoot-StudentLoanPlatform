@@ -42,6 +42,7 @@ export default function Nav() {
                 updatedNavigation = [
                     { name: 'Dashboard', href: 'admin/dashboard', current: false },
                     { name: 'Manage User Account', href: 'admin/manage-user', current: false },
+                    { name: 'View Loan', href: 'admin/view-loan', current: false },
                     { name: 'Manage Loan and Repayment', href: 'admin/manage-loan', current: false },
                 ];
             } else if (localStorage.getItem('userType') === 'Borrower') {

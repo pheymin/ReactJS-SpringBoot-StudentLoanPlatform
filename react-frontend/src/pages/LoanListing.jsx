@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Tabs } from 'antd';
 import LenderAllLoan from '../components/LenderAllLoan';
+import LenderLoan from '../components/LenderLoan';
 
 const LoanListing = () => {
     const items = [
@@ -12,7 +13,7 @@ const LoanListing = () => {
         {
             key: '2',
             label: 'My Ongoing Loans',
-            // children: <Agreement />
+            children: <LenderLoan />
         }
     ];
 

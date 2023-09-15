@@ -10,6 +10,7 @@ import LoanApplication from './pages/LoanApplication';
 import ManageUser from './pages/ManageUser';
 import UpdateUser from './pages/UpdateUser';
 import LoanListing from './pages/LoanListing';
+import ViewLoan from './pages/ViewLoan';
 import './App.css';
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
           <Route index element={<Navigate to="dashboard" />} />
           <Route path="manage-user" element={<ManageUser />} />
           <Route path="update-user" element={<UpdateUser />}/>
+          <Route path='view-loan' element={<ViewLoan/>}/>
         </Route>
         <Route path="/lender">
           <Route index element={<Navigate to="dashboard" />} />
