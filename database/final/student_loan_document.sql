@@ -24,15 +24,14 @@ DROP TABLE IF EXISTS `document`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `document` (
   `docID` int NOT NULL AUTO_INCREMENT,
-  `borrowerID` int NOT NULL,
-  `docName` varchar(255) NOT NULL,
-  `docType` varchar(255) NOT NULL,
-  `filePath` varchar(255) NOT NULL,
-  `uploadDate` date NOT NULL,
+  `userID` int NOT NULL,
+  `doc_type` varchar(255) NOT NULL,
+  `file_path` varchar(255) NOT NULL,
+  `upload_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`docID`),
-  KEY `borrowerID` (`borrowerID`),
-  CONSTRAINT `document_ibfk_1` FOREIGN KEY (`borrowerID`) REFERENCES `borrower` (`borrowerID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `userID` (`userID`),
+  CONSTRAINT `document_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `user` (`userID`)
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -44,4 +43,4 @@ CREATE TABLE `document` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-08-20 19:28:02
+-- Dump completed on 2023-09-12  0:21:22

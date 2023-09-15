@@ -25,15 +25,15 @@ DROP TABLE IF EXISTS `borrower`;
 CREATE TABLE `borrower` (
   `borrowerID` int NOT NULL AUTO_INCREMENT,
   `userID` int NOT NULL,
-  `uniName` varchar(100) NOT NULL,
-  `levelOfStudy` varchar(50) NOT NULL,
-  `course` varchar(50) NOT NULL,
-  `courseDuration` date NOT NULL,
-  `expGraduation` date NOT NULL,
+  `uni_name` varchar(255) DEFAULT NULL,
+  `level_of_study` varchar(255) DEFAULT NULL,
+  `course` varchar(255) DEFAULT NULL,
+  `course_start` date DEFAULT NULL,
+  `course_end` date DEFAULT NULL,
   PRIMARY KEY (`borrowerID`),
   KEY `userID` (`userID`),
   CONSTRAINT `borrower_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `user` (`userID`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -45,4 +45,4 @@ CREATE TABLE `borrower` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-08-20 19:28:02
+-- Dump completed on 2023-09-12  0:21:22

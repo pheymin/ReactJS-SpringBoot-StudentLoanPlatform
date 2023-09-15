@@ -32,14 +32,15 @@ CREATE TABLE `user` (
   `phone` varchar(255) DEFAULT NULL,
   `bank_name` varchar(255) DEFAULT NULL,
   `bank_acc` varchar(255) DEFAULT NULL,
-  `user_type` enum('Borrower','Lender','Admin') DEFAULT NULL,
+  `user_type` varchar(255) DEFAULT NULL,
   `city` varchar(255) DEFAULT NULL,
   `street` varchar(255) DEFAULT NULL,
   `state` varchar(255) DEFAULT NULL,
-  `postcode` varchar(10) DEFAULT NULL,
-  `status` enum('0','1') DEFAULT '1',
+  `postcode` varchar(255) DEFAULT NULL,
+  `status` int DEFAULT NULL,
+  `photo_url` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`userID`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -51,4 +52,4 @@ CREATE TABLE `user` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-08-20 19:28:02
+-- Dump completed on 2023-09-12  0:21:22

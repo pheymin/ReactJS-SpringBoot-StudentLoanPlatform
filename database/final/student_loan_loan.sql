@@ -25,22 +25,25 @@ DROP TABLE IF EXISTS `loan`;
 CREATE TABLE `loan` (
   `loanID` int NOT NULL AUTO_INCREMENT,
   `borrowerID` int NOT NULL,
-  `lenderID` int NOT NULL,
-  `loanAmount` float NOT NULL,
-  `loanDuration` date NOT NULL,
-  `interestRate` float NOT NULL,
-  `termsNConditions` varchar(255) NOT NULL,
-  `loanPurpose` varchar(255) NOT NULL,
-  `appliedDate` date NOT NULL,
-  `issuedDate` varchar(25) NOT NULL,
-  `outstandingBalance` float NOT NULL,
-  `loanStatus` varchar(50) NOT NULL,
+  `lenderID` int DEFAULT NULL,
+  `loan_amount` double DEFAULT NULL,
+  `loan_duration_start` date DEFAULT NULL,
+  `loan_purpose` varchar(255) DEFAULT NULL,
+  `applied_date` date DEFAULT NULL,
+  `issued_date` date DEFAULT NULL,
+  `loan_status` varchar(255) DEFAULT NULL,
+  `loan_duration_end` date DEFAULT NULL,
+  `approved_date` date DEFAULT NULL,
+  `borrower_id` int DEFAULT NULL,
+  `lender_id` int DEFAULT NULL,
   PRIMARY KEY (`loanID`),
-  KEY `borrowerID` (`borrowerID`),
-  KEY `lenderID` (`lenderID`),
+  KEY `FKogwq6due0sobgr76cjs39vju5` (`borrowerID`),
+  KEY `FKgs7s795ugxhe24s6qmdaovqq8` (`lenderID`),
+  CONSTRAINT `FKgs7s795ugxhe24s6qmdaovqq8` FOREIGN KEY (`lenderID`) REFERENCES `user` (`userID`),
+  CONSTRAINT `FKogwq6due0sobgr76cjs39vju5` FOREIGN KEY (`borrowerID`) REFERENCES `user` (`userID`),
   CONSTRAINT `loan_ibfk_1` FOREIGN KEY (`borrowerID`) REFERENCES `borrower` (`borrowerID`),
   CONSTRAINT `loan_ibfk_2` FOREIGN KEY (`lenderID`) REFERENCES `lender` (`lenderID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -52,4 +55,4 @@ CREATE TABLE `loan` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-08-20 19:28:02
+-- Dump completed on 2023-09-12  0:21:22

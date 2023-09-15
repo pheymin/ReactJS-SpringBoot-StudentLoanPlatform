@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface LenderRepository extends JpaRepository<Lender, Integer> {
+
+        Lender findLenderIDByUserUserID(Integer userID);
 }

@@ -42,4 +42,8 @@ public class LenderService {
         lenderRepository.deleteById(id);
     }
 
+    public Lender findLenderIDByUserID(Integer userID) {
+        return lenderRepository.findLenderIDByUserUserID(userID);
+    }
+
 }

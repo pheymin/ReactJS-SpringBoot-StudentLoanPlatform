@@ -86,8 +86,8 @@ public class DocumentController {
 
     @GetMapping("/check/{id}")
     public ResponseEntity<String> checkUserDocument(@PathVariable Integer id) {
-        Document document = documentRepository.findById(id).orElse(null);
-        if(document == null){
+        List<Document> document = documentRepository.findByUserID(id);
+        if(document.isEmpty()){
             return ResponseEntity.ok("404");
         }
         else{
