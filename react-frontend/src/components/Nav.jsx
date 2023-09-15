@@ -54,7 +54,6 @@ export default function Nav() {
                 updatedNavigation = [
                     { name: 'Dashboard', href: 'lender/dashboard', current: false },
                     { name: 'Loan Listing', href: 'lender/loan', current: false },
-                    { name: 'Sign Loan Agreement', href: 'lender/agreement', current: false },
                     { name: 'Provide Fund', href: 'lender/fund', current: false },
                 ];
             }

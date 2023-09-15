@@ -8,15 +8,6 @@ const { RangePicker } = DatePicker;
 
 const Form = () => {
 
-    useEffect(() => {
-        DocumentService.checkUserDocument(localStorage.getItem('userID')).then((response) => {
-            if (response.data != '200') {
-                alert('Please upload the required documents before applying for a loan.');
-                window.location.href = '/profile';
-            }
-        });
-    }, []);
-
     const [borrower, setBorrower] = useState({
         userID: localStorage.getItem('userID'),
         uniName: '',
@@ -63,15 +54,27 @@ const Form = () => {
             return;
         }
 
-        BorrowerService.updateBorrower(borrower, localStorage.getItem('userID')).then((response) => {
-            //get borrower id
-            setLoan({ ...loan, borrowerID: response.data.borrowerID });
-            console.log(loan);
-            LoanService.createLoan(loan).then((response) => {
+        BorrowerService.updateBorrower(borrower, localStorage.getItem('userID'))
+            .then((response) => {
+                const updatedBorrowerID = response.data.borrowerID;
+                const updatedLoan = { ...loan, borrowerID: updatedBorrowerID };
+                setLoan(updatedLoan);
+
+                console.log(response.data);
+                return updatedBorrowerID;
+            })
+            .then((borrowerID) => {
+                console.log(loan);
+                return LoanService.createLoan({ ...loan, borrowerID });
+            })
+            .then((response) => {
                 alert('Loan application submitted successfully.');
-                // window.location.href = '/borrower';
+                window.location.href = '/borrower/loan-application';
+            })
+            .catch((error) => {
+                console.error(error);
             });
-        });
+
     };
 
     return (
@@ -205,7 +208,7 @@ const Form = () => {
 }
 
 const FilledForm = ({ loan, borrower }) => {
-    
+
     return (
         <>
             <div className="mt-4 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2">
@@ -273,15 +276,25 @@ const BorrowerApplication = () => {
     const [loan, setLoan] = useState(null);
     const [borrower, setBorrower] = useState(null);
     const [isLoading, setIsLoading] = useState(true); // Add isLoading state
+    const userId = localStorage.getItem('userID');
 
     useEffect(() => {
-        LoanService.getLoanByBorrowerID(localStorage.getItem('userID')).then((response) => {
-            if (response.data != null) {
-                setLoan(response.data);
-                BorrowerService.getBorrowerById(response.data.borrowerID).then((response) => {
-                    setBorrower(response.data);
-                    setIsLoading(false); // Set isLoading to false when borrower data is available
+        DocumentService.checkUserDocument(userId).then((response) => {
+            if (response.data == 200) {
+                LoanService.getLoanByBorrowerID(userId).then((response) => {
+                    if (response.data != '') {
+                        setLoan(response.data);
+                        BorrowerService.getBorrowerById(response.data.borrowerID).then((response) => {
+                            setBorrower(response.data);
+                            setIsLoading(false); // Set isLoading to false when borrower data is available
+                        });
+                    } else {
+                        setIsLoading(false);
+                    }
                 });
+            } else {
+                alert('Please upload the required documents before applying for a loan.');
+                window.location.href = '/profile';
             }
         });
     }, []);

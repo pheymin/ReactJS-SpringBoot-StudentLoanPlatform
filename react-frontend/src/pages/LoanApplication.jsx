@@ -22,7 +22,7 @@ const LoanApplication = () => {
     useEffect(() => {
         LoanService.getLoanByBorrowerID(localStorage.getItem('userID')).then((response) => {
             let loanStatus = response.data.loanStatus;
-            if (loanStatus === 'In Progress') {
+            if (loanStatus === 'Lender Signed') {
                 items[0].disabled = true;
                 items[1].disabled = false;
 

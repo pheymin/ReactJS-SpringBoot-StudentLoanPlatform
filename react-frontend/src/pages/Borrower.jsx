@@ -17,9 +17,6 @@ const Borrower = () => {
                                 title: 'Pending'
                             },
                             {
-                                title: 'In Progress'
-                            },
-                            {
                                 title: 'Lender Signed'
                             },
                             {
