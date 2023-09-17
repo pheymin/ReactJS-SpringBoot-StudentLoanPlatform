@@ -49,13 +49,11 @@ export default function Nav() {
                 updatedNavigation = [
                     { name: 'Dashboard', href: 'borrower/dashboard', current: false },
                     { name: 'Submit Loan Application', href: 'borrower/loan-application', current: false },
-                    { name: 'Make Repayment', href: 'borrower/repayment', current: false },
                 ];
             } else if (localStorage.getItem('userType') === 'Lender') {
                 updatedNavigation = [
                     { name: 'Dashboard', href: 'lender/dashboard', current: false },
                     { name: 'Loan Listing', href: 'lender/loan', current: false },
-                    { name: 'Provide Fund', href: 'lender/fund', current: false },
                 ];
             }
 
@@ -136,7 +134,7 @@ export default function Nav() {
                                             >
                                                 <span className="absolute -inset-1.5" />
                                                 <span className="sr-only">View notifications</span>
-                                                <BellIcon className="h-6 w-6" aria-hidden="true" />
+                                                {/* <BellIcon className="h-6 w-6" aria-hidden="true" /> */}
                                             </button>
 
                                             <Menu as="div" className="relative ml-3">
@@ -229,7 +227,7 @@ export default function Nav() {
                                         >
                                             <span className="absolute -inset-1.5" />
                                             <span className="sr-only">View notifications</span>
-                                            <BellIcon className="h-6 w-6" aria-hidden="true" />
+                                            {/* <BellIcon className="h-6 w-6" aria-hidden="true" /> */}
                                         </button>
                                     </div>
                                     <div className="mt-3 space-y-1 px-2">

@@ -50,6 +50,10 @@ class LoanService{
     getLoanBorrower(){
         return axios.get(API_URL + '/loanborrower');
     }
+
+    loanFunded(id){
+        return axios.post(API_URL + '/loanfunded/' + id);
+    }
 }
 
 export default new LoanService();

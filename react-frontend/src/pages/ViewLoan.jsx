@@ -2,7 +2,6 @@ import React from 'react'
 import { useEffect, useState } from 'react'
 import { Table, Space, Button, Modal, Breadcrumb } from 'antd';
 import LoanService from '../services/LoanService';
-import LoanDetail from '../components/LoanDetail';
 
 const ViewLoan = () => {
     const columns = [
@@ -76,9 +75,17 @@ const ViewLoan = () => {
     ];
 
     const [data, setData] = useState([]);
-    const [loan, setLoan] = useState('');
 
     useEffect(() => {
+        let userId = localStorage.getItem('userID')
+        let userType = localStorage.getItem('userType')
+        if (!userId) {
+            window.location.href = '/login'
+        }
+        if (userType !== 'Admin') {
+            window.location.href = '/'
+        }
+        
         LoanService.getLoanBorrower().then((res) => {
             const newData = res.data.map((loan) => {
                 return {
@@ -99,36 +106,30 @@ const ViewLoan = () => {
 
 
     const handleView = (key) => {
-        setLoan(key);
+        window.location.href = `/admin/view-loan/detail?id=${key}`;
     }
 
     return (
         <div className='mx-auto w-5/6 my-5 md:px-20 space-y-5'>
-            {loan ? (
-                <LoanDetail loanID={loan} />
-            ) : (
-                <>
-                    <Breadcrumb
-                        separator=">"
-                        items={[
-                            {
-                                title: 'View Loan',
-                            },
-                        ]}
-                    />
-                    <h2>View Borrower Loan</h2>
-                    <Table
-                        columns={columns}
-                        dataSource={data}
-                        bordered
-                        size="middle"
-                        scroll={{
-                            x: 'calc(700px + 50%)',
-                            // y: 400,
-                        }}
-                    />
-                </>
-            )}
+            <Breadcrumb
+                separator=">"
+                items={[
+                    {
+                        title: 'View Loan',
+                    },
+                ]}
+            />
+            <h2>View Borrower Loan</h2>
+            <Table
+                columns={columns}
+                dataSource={data}
+                bordered
+                size="middle"
+                scroll={{
+                    x: 'calc(700px + 50%)',
+                    // y: 400,
+                }}
+            />
         </div>
     )
 }

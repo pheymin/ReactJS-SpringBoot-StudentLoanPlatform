@@ -1,12 +1,10 @@
 import React from 'react'
 import { useEffect, useState } from 'react'
-import { Table, Space, Button } from 'antd';
+import { Table, Space, Button, Modal } from 'antd';
 import LoanService from '../services/LoanService';
 
 const LenderLoan = () => {
     const [data, setData] = useState([]);
-    const [fund, setFund] = useState(false);
-    const [loanID, setLoanID] = useState('');
 
     useEffect(() => {
         let userId = parseInt(localStorage.getItem('userID'));
@@ -22,6 +20,7 @@ const LenderLoan = () => {
                     courseEnd: loan.borrower.courseEnd,
                     loanAmount: loan.loan.loanAmount,
                     loanPurpose: loan.loan.loanPurpose,
+                    loanStatus: loan.loan.loanStatus,
                 }));
                 setData(formattedData);
             })
@@ -91,15 +90,32 @@ const LenderLoan = () => {
             fixed: 'right',
             render: (text, record) => (
                 <Space size="middle">
-                    <Button onClick={() => handleFund(record.key)}>Provide Fund</Button>
+                    {record.loanStatus === 'Lender Paid' ? (
+                        <Button disabled>Funded</Button>
+                    ) : (
+                        <Button onClick={() => handleFund(record.key)}>Provide Fund</Button>
+                    )}
                 </Space>
             ),
         },
     ];
 
     const handleFund = (key) => {
-        setFund(true);
-        setLoanID(key);
+        Modal.confirm({
+            title: 'Are you sure you want to provide fund?',
+            onOk() {
+                LoanService.loanFunded(key)
+                    .then((res) => {
+                        window.location.reload();
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
+            },
+            onCancel() {
+                console.log('Cancel');
+            }
+        })
     };
 
     return (

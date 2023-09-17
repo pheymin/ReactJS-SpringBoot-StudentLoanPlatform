@@ -20,6 +20,15 @@ const UpdateForm = () => {
     let userId = new URLSearchParams(window.location.search).get('id')
 
     useEffect(() => {
+        let userId = localStorage.getItem('userID')
+        let userType = localStorage.getItem('userType')
+        if (!userId) {
+            window.location.href = '/login'
+        }
+        if (userType !== 'Admin') {
+            window.location.href = '/'
+        }
+        
         UserService.getUserById(userId)
             .then(res => {
                 setUser(res.data)

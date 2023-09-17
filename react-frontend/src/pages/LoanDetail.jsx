@@ -1,13 +1,24 @@
 import React from 'react'
 import { useEffect, useState } from 'react'
-import { Space, Button, Modal, Breadcrumb } from 'antd';
+import { Breadcrumb,Segmented } from 'antd';
 import LoanService from '../services/LoanService';
 import LenderService from '../services/LenderService';
 
-const LoanDetail = (loanID) => {
+const LoanDetail = () => {
+    //get loanid from url
+    let loanID = new URLSearchParams(window.location.search).get('id')
     const [loan, setLoan] = useState({});
     useEffect(() => {
-        LoanService.getLoanBorrowerByLoanID(loanID.loanID)
+        let userId = localStorage.getItem('userID')
+        let userType = localStorage.getItem('userType')
+        if (!userId) {
+            window.location.href = '/login'
+        }
+        if (userType !== 'Admin') {
+            window.location.href = '/'
+        }
+
+        LoanService.getLoanBorrowerByLoanID(loanID)
             .then((res) => {
                 const loan = res.data.loan;
                 const borrower = res.data.borrower;
@@ -48,7 +59,7 @@ const LoanDetail = (loanID) => {
     }, [])
 
     return (
-        <>
+        <div className='mx-auto w-5/6 my-5 md:px-20 space-y-5'>
             <Breadcrumb
                 separator=">"
                 items={[
@@ -61,6 +72,7 @@ const LoanDetail = (loanID) => {
                     },
                 ]}
             />
+            <h2>Loan Details</h2>
             <h3>Loan Information</h3>
             <div className="mt-4 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2">
                 <div className='md:col-span-2 space-y-2'>
@@ -169,7 +181,7 @@ const LoanDetail = (loanID) => {
                     <p>From {loan.courseStart} to {loan.courseEnd}</p>
                 </div>
             </div>
-        </>
+        </div>
     )
 }
 

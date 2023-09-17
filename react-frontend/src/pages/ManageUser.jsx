@@ -100,6 +100,15 @@ const ManageUser = () => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
+    let userId = localStorage.getItem('userID')
+    let userType = localStorage.getItem('userType')
+    if (!userId) {
+      window.location.href = '/login'
+    }
+    if (userType !== 'Admin') {
+      window.location.href = '/'
+    }
+
     UserService.getUsers().then((res) => {
       const newData = res.data.map((user) => {
         return {
