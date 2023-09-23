@@ -6,7 +6,7 @@ import LenderService from '../services/LenderService';
 const BorrowerAgreement = (loanID) => {
 
     const [agreement, setAgreement] = useState([]);
-
+    console.log(loanID.loanID);
     useEffect(() => {
         LoanService.getLoanBorrowerByLoanID(loanID.loanID)
             .then((res) => {
@@ -85,6 +85,7 @@ const BorrowerAgreement = (loanID) => {
                 const response = await LoanService.borrowerSign(loan);
                 if (response.status === 200) {
                     alert('Loan agreement signed successfully.');
+                    window.location.href = '/borrower/loan-application';
                 } else {
                     alert('Loan agreement signing failed.');
                 }

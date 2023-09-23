@@ -54,6 +54,10 @@ class LoanService{
     loanFunded(id){
         return axios.post(API_URL + '/loanfunded/' + id);
     }
+
+    updateLoanStatus(id){
+        return axios.post(API_URL + '/updatestatus/' + id);
+    }
 }
 
 export default new LoanService();

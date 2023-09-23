@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { Steps } from 'antd';
 import LoanService from '../services/LoanService';
 import { BellIcon } from '@heroicons/react/24/outline'
-
+import TransactionHistory from '../components/TransactionHistory';
+import { Steps} from 'antd';
 
 const LoanStatus = (loan) => {
     const statusToStepIndex = {
@@ -115,9 +115,19 @@ const QuickAction = () => {
     )
 }
 
+function formatDate() {
+    const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    const month = (currentDate.getMonth() + 1).toString().padStart(2, '0'); // Months are 0-indexed
+    const day = currentDate.getDate().toString().padStart(2, '0');
+
+    const formattedDate = `${year}-${month}-${day}`;
+    console.log(formattedDate);
+    return formattedDate;
+}
+
 const Borrower = () => {
     const [loan, setLoan] = useState({});
-    
 
     useEffect(() => {
         let userId = parseInt(localStorage.getItem('userID'))
@@ -125,11 +135,16 @@ const Borrower = () => {
         if (!userId) {
             window.location.href = '/login'
         }
-        if(userType !== 'Borrower'){
+        if (userType !== 'Borrower') {
             window.location.href = '/'
         }
 
         LoanService.getLoanByBorrowerID(userId).then((res) => {
+            if (res.data.loanStatus === 'Lender Paid' && res.data.loanDurationEnd < formatDate()) {
+                LoanService.updateLoanStatus(res.data.loanID).then((res) => {
+                    window.location.reload()
+                })
+            }
             setLoan(res.data)
         })
     }, [])
@@ -140,7 +155,9 @@ const Borrower = () => {
             <LoanStatus loan={loan} />
             {loan.loanStatus === 'Lender Paid' ?
                 (<PaymentFrom loan={loan} />) :
-                (<></>)}
+                loan.loanStatus === 'Repayment In Progress' ?
+                    (<TransactionHistory loan={loan} />) :
+                    (<></>)}
             <QuickAction />
         </div>
     )

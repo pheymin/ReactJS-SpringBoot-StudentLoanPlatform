@@ -11,6 +11,10 @@ class LenderService{
         return axios.get(API_URL + '/' + id);
     }
 
+    getLenderByUserId(id){
+        return axios.get(API_URL + '/user/' + id);
+    }
+
     createLender(lender){
         return axios.post(API_URL, lender);
     }

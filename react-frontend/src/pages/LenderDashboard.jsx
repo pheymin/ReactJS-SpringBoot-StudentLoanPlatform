@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react'
+import LoanService from '../services/LoanService';
+import { Space, Table, Tag } from 'antd';
 
 const QuickAction = () => {
     return (
@@ -26,6 +28,57 @@ const QuickAction = () => {
     )
 }
 
+const Transaction = () => {
+    const [data, setData] = useState([]);
+
+    useEffect(() => {
+        let userId = localStorage.getItem('userID');
+        LoanService.getLoanBorrowerByLenderID(userId).then((res) => {
+            //set data in details
+            const newData = res.data
+            .filter((loan) => loan.loan.loanStatus === 'Lender Paid')
+            .map((loan, index) => {
+                return {
+                    transaction: `Fund Transfer ${index + 1}`,
+                    borrower: loan.borrower.user.name,
+                    date: loan.loan.issuedDate,
+                    loanAmount: loan.loan.loanAmount,
+                };
+            });
+            setData(newData);
+        });
+    }, []);
+
+    const columns = [
+        {
+            title: 'Fund Transfer',
+            dataIndex: 'transaction',
+        },
+        {
+            title: 'Borrower',
+            dataIndex: 'borrower',
+        },
+        {
+            title: 'Date',
+            dataIndex: 'date',
+        },
+        {
+            title: 'Amount (RM)',
+            dataIndex: 'loanAmount',
+        },
+    ];
+
+    return (
+        <div className='border rounded-lg px-5 py-10 space-y-4'>
+            <h4 className='font-semibold'>Payment History</h4>
+            <Table dataSource={data}
+                columns={columns}
+                pagination={false}
+                bordered />
+        </div>
+    )
+}
+
 const LenderDashboard = () => {
 
     useEffect(() => {
@@ -41,6 +94,7 @@ const LenderDashboard = () => {
 
     return (
         <div className='mx-auto w-4/5 my-5 md:px-20 space-y-5'>
+            <Transaction />
             <QuickAction />
         </div>
     )

@@ -6,21 +6,6 @@ import LoanService from '../services/LoanService';
 
 const LoanApplication = () => {
     const [activeTab, setActiveTab] = useState('');
-    const [loanID, setLoanID] = useState('1');
-    const [items, setItems] = useState([
-        {
-            key: '1',
-            label: 'Loan Application',
-            children: <Application />,
-            disabled: false,
-        },
-        {
-            key: '2',
-            label: 'Loan Agreement',
-            children: <Agreement loanID={loanID} />,
-            disabled: false,
-        }
-    ]);
 
     useEffect(() => {
         let userId = localStorage.getItem('userID')
@@ -28,13 +13,12 @@ const LoanApplication = () => {
         if (!userId) {
             window.location.href = '/login'
         }
-        if(userType !== 'Borrower'){
+        if (userType !== 'Borrower') {
             window.location.href = '/'
         }
 
-        LoanService.getLoanByBorrowerID(localStorage.getItem('userID')).then((response) => {
+        LoanService.getLoanByBorrowerID(userId).then((response) => {
             let loanStatus = response.data.loanStatus;
-            setLoanID(response.data.loanID);
 
             // Create a new array with updated items
             const updatedItems = [...items];
@@ -46,15 +30,31 @@ const LoanApplication = () => {
             } else if (loanStatus === 'Lender Signed') {
                 updatedItems[0].disabled = false;
                 updatedItems[1].disabled = false;
+                updatedItems[1].children = <Agreement loanID={response.data.loanID} />,
                 setActiveTab('2');
             } else {
                 updatedItems[0].disabled = false;
                 updatedItems[1].disabled = false;
+                updatedItems[1].children = <Agreement loanID={response.data.loanID} />
             }
 
             setItems(updatedItems);
         });
     }, []);
+
+    const [items, setItems] = useState([
+        {
+            key: '1',
+            label: 'Loan Application',
+            children: <Application />,
+            disabled: false,
+        },
+        {
+            key: '2',
+            label: 'Loan Agreement',
+            disabled: true,
+        }
+    ]);
 
     return (
         <div className='mx-auto w-4/5 my-5 md:px-20 space-y-5'>

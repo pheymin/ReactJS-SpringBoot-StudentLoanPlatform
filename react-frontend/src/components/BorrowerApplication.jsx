@@ -24,7 +24,8 @@ const Form = () => {
         loanDurationEnd: '',
         loanPurpose: '',
         appliedDate: new Date().toISOString().slice(0, 10),
-        loanStatus: 'Pending'
+        loanStatus: 'Pending',
+        repaymentTerms: 6,
     });
 
     const [loanDuration, setLoanDuration] = useState([]);
@@ -104,7 +105,6 @@ const Form = () => {
                         id="levelOfStudy"
                         className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         required
-                        value={'Degree'}
                         onChange={handleInputChange}
                     >
                         <option value="Diploma">Diploma</option>
@@ -196,6 +196,27 @@ const Form = () => {
                         className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     />
                 </div>
+
+                <div className='space-y-2'>
+                    <label htmlFor="repaymentTerms" className="block text-sm font-medium leading-6 text-gray-900">
+                        Repayment Terms
+                    </label>
+                    <select
+                        type="text"
+                        name="repaymentTerms"
+                        id="repaymentTerms"
+                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                        required
+                        onChange={handleInputChange}
+                    >
+                        <option value="6">6</option>
+                        <option value="12">12</option>
+                        <option value="18">18</option>
+                        <option value="24">24</option>
+                        <option value="30">30</option>
+                        <option value="36">36</option>
+                    </select>
+                </div>
             </div>
             <button
                 type="submit"
@@ -266,6 +287,13 @@ const FilledForm = ({ loan, borrower }) => {
                         Loan Purpose
                     </label>
                     <p>{loan.loanPurpose}</p>
+                </div>
+
+                <div className='space-y-2'>
+                    <label htmlFor="repaymentTerms" className="block text-sm font-medium leading-6 text-gray-900">
+                        Repayment Terms
+                    </label>
+                    <p>{loan.repaymentTerms}</p>
                 </div>
             </div>
         </>

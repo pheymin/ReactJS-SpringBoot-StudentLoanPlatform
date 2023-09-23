@@ -14,6 +14,8 @@ import ViewLoan from './pages/ViewLoan';
 import AdminDashboard from './pages/AdminDashboard';
 import LoanDetail from './pages/LoanDetail';
 import LenderDashboard from './pages/LenderDashboard';
+import ManageRepayment from './pages/ManageRepayment';
+import RepaymentDetail from './pages/RepaymentDetail';
 import './App.css';
 
 function App() {
@@ -37,6 +39,8 @@ function App() {
           <Route path="update-user" element={<UpdateUser />}/>
           <Route path='view-loan' element={<ViewLoan/>}/>
           <Route path='view-loan/detail' element={<LoanDetail/>}/>
+          <Route path='manage-loan' element={<ManageRepayment/>}/>
+          <Route path='manage-loan/detail' element={<RepaymentDetail/>}/>
         </Route>
         <Route path="/lender">
           <Route index element={<Navigate to="dashboard" />} />

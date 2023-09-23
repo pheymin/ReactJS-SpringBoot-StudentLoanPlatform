@@ -110,20 +110,22 @@ const ManageUser = () => {
     }
 
     UserService.getUsers().then((res) => {
-      const newData = res.data.map((user) => {
-        return {
-          key: user.userID,
-          name: user.name,
-          email: user.email,
-          dob: user.dob,
-          phone: user.phone,
-          userType: user.userType,
-          street: user.street,
-          state: user.state,
-          city: user.city,
-          postcode: user.postcode,
-        }
-      })
+      const newData = res.data
+        .filter((user) => user.status === 1)
+        .map((user) => {
+          return {
+            key: user.userID,
+            name: user.name,
+            email: user.email,
+            dob: user.dob,
+            phone: user.phone,
+            userType: user.userType,
+            street: user.street,
+            state: user.state,
+            city: user.city,
+            postcode: user.postcode,
+          }
+        })
       setData(newData);
     })
   }, [])

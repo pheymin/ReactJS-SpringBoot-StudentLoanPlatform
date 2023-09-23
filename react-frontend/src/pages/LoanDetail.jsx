@@ -38,6 +38,7 @@ const LoanDetail = () => {
                         course: borrower.course,
                         courseStart: borrower.courseStart,
                         courseEnd: borrower.courseEnd,
+                        repaymentTerms: loan.repaymentTerms,
                     };
                     const lenderId = loan.lenderID;
                     if (lenderId !== null) {
@@ -65,7 +66,7 @@ const LoanDetail = () => {
                 items={[
                     {
                         title: 'View Loan',
-                        href: 'view-loan',
+                        href: 'http://localhost:5173/admin/view-loan',
                     },
                     {
                         title: 'Loan Detail',
@@ -147,6 +148,13 @@ const LoanDetail = () => {
                         Loan Status
                     </label>
                     <p>{loan.status}</p>
+                </div>
+                
+                <div className='space-y-2'>
+                    <label htmlFor="repaymentTerms" className="block text-sm font-medium leading-6 text-gray-400">
+                        Repayment Terms
+                    </label>
+                    <p>{loan.repaymentTerms}</p>
                 </div>
 
             </div>

@@ -23,6 +23,7 @@ const LenderAllLoan = () => {
                     courseEnd: loan.borrower.courseEnd,
                     loanAmount: loan.loan.loanAmount,
                     loanPurpose: loan.loan.loanPurpose,
+                    repaymentTerms: loan.loan.repaymentTerms,
                 }));
                 setData(formattedData);
             })
@@ -84,6 +85,12 @@ const LenderAllLoan = () => {
             dataIndex: 'loanPurpose',
             key: 'loanPurpose',
             width: 100,
+        },
+        {
+            title: 'Repayment Terms (Months)',
+            dataIndex: 'repaymentTerms',
+            key: 'repaymentTerms',
+            width: 80,
         },
         {
             title: 'Action',

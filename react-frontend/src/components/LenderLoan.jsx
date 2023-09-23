@@ -10,7 +10,9 @@ const LenderLoan = () => {
         let userId = parseInt(localStorage.getItem('userID'));
         LoanService.getLoanBorrowerByLenderID(userId)
             .then((res) => {
-                const formattedData = res.data.map((loan) => ({
+                const filteredData = res.data.filter((loan) => loan.loan.loanStatus !== 'Lender Signed');
+
+                const formattedData = filteredData.map((loan) => ({
                     key: loan.loan.loanID,
                     name: loan.borrower.user.name,
                     uniName: loan.borrower.uniName,
@@ -21,6 +23,7 @@ const LenderLoan = () => {
                     loanAmount: loan.loan.loanAmount,
                     loanPurpose: loan.loan.loanPurpose,
                     loanStatus: loan.loan.loanStatus,
+                    repaymentTerms: loan.loan.repaymentTerms,
                 }));
                 setData(formattedData);
             })
@@ -28,6 +31,7 @@ const LenderLoan = () => {
                 console.log(err);
             });
     }, []);
+
 
     const columns = [
         {
@@ -82,6 +86,12 @@ const LenderLoan = () => {
             dataIndex: 'loanPurpose',
             key: 'loanPurpose',
             width: 100,
+        },
+        {
+            title: 'Repayment Terms (Months)',
+            dataIndex: 'repaymentTerms',
+            key: 'repaymentTerms',
+            width: 80,
         },
         {
             title: 'Action',
