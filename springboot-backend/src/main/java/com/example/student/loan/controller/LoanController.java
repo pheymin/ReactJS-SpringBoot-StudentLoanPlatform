@@ -1,9 +1,6 @@
 package com.example.student.loan.controller;
 
-import com.example.student.loan.model.Borrower;
-import com.example.student.loan.model.Lender;
-import com.example.student.loan.model.Loan;
-import com.example.student.loan.model.LoanBorrowerDTO;
+import com.example.student.loan.model.*;
 import com.example.student.loan.repository.BorrowerRepository;
 import com.example.student.loan.repository.LenderRepository;
 import com.example.student.loan.repository.LoanRepository;
@@ -125,6 +122,23 @@ public class LoanController {
         return ResponseEntity.ok(existingLoan);
     }
 
+    @PostMapping("/loanfunded/{id}")
+    public ResponseEntity<Loan> loanFunded(@PathVariable Integer id) {
+        Loan existingLoan = loanRepository.findById(id).orElse(null);
+        if (existingLoan == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        existingLoan.setLoanStatus("Lender Paid");
+
+        Date issuedDate = new Date();
+        existingLoan.setIssuedDate(issuedDate);
+
+        loanRepository.save(existingLoan);
+
+        return ResponseEntity.ok(existingLoan);
+    }
+
     @GetMapping("/loanborrower/{id}")
     public ResponseEntity<LoanBorrowerDTO> getLoanBorrowerDTOById(@PathVariable Integer id) {
         LoanBorrowerDTO loanBorrowerDTO = loanService.getLoanBorrowerDTOById(id);
@@ -154,4 +168,18 @@ public class LoanController {
         return new ResponseEntity<>(loanBorrowerDTO, HttpStatus.OK);
     }
 
+    @PostMapping("/updatestatus/{id}")
+    public ResponseEntity<Loan> updateLoanStatus(@PathVariable Integer id) {
+
+        Loan existingLoan = loanRepository.findById(id).orElse(null);
+        if (existingLoan == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        existingLoan.setLoanStatus("Repayment In Progress");
+
+        loanRepository.save(existingLoan);
+
+        return ResponseEntity.ok(existingLoan);
+    }
 }

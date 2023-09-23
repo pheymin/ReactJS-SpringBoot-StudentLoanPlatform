@@ -40,6 +40,14 @@ public class LenderController {
         return ResponseEntity.ok(lenderDTO);
     }
 
+    @GetMapping("/user/{id}")
+    public ResponseEntity<LenderDTO> getLenderByUserId(@PathVariable Integer id) {
+        Lender lender = lenderService.findLenderIDByUserID(id);
+        LenderDTO lenderDTO = LenderDTO.createDTO(lender);
+
+        return ResponseEntity.ok(lenderDTO);
+    }
+
     @PostMapping
     public ResponseEntity<LenderDTO> createLender(@RequestBody Lender lender) {
         Lender newLender = lenderService.createLender(lender);

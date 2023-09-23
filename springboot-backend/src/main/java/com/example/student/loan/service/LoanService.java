@@ -1,9 +1,8 @@
 package com.example.student.loan.service;
 
-import com.example.student.loan.model.Borrower;
-import com.example.student.loan.model.Loan;
-import com.example.student.loan.model.LoanBorrowerDTO;
+import com.example.student.loan.model.*;
 import com.example.student.loan.repository.BorrowerRepository;
+import com.example.student.loan.repository.LenderRepository;
 import com.example.student.loan.repository.LoanRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,10 +16,13 @@ public class LoanService {
     private final LoanRepository loanRepository;
     private final BorrowerRepository borrowerRepository;
 
+    private final LenderRepository lenderRepository;
+
     @Autowired
-    public LoanService(LoanRepository loanRepository, BorrowerRepository borrowerRepository) {
+    public LoanService(LoanRepository loanRepository, BorrowerRepository borrowerRepository, LenderRepository lenderRepository) {
         this.loanRepository = loanRepository;
         this.borrowerRepository = borrowerRepository;
+        this.lenderRepository = lenderRepository;
     }
 
     public List<LoanBorrowerDTO> findPendingLoans(String status) {

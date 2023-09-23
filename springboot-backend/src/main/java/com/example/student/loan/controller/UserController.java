@@ -44,7 +44,11 @@ public class UserController {
 
     @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable Integer id) {
-        userRepository.deleteById(id);
+
+        //set user status to inactive
+        User user = userRepository.findById(id).orElse(null);
+        user.setStatus(0);
+        userRepository.save(user);
     }
 
     // login

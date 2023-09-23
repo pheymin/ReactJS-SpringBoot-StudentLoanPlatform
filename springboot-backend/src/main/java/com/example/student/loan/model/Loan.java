@@ -42,7 +42,14 @@ public class Loan {
     @Temporal(TemporalType.DATE)
     private Date approvedDate;
 
-    public Loan(Integer loanID, Integer borrowerID, Integer lenderID, Double loanAmount, Date loanDurationStart, Date loanDurationEnd, String loanStatus, String loanPurpose, Date appliedDate, Date approvedDate) {
+    @Column(name = "issued_date")
+    @Temporal(TemporalType.DATE)
+    private Date issuedDate;
+
+    @Column(name = "payment_terms")
+    private Integer repaymentTerms;
+
+    public Loan(Integer loanID, Integer borrowerID, Integer lenderID, Double loanAmount, Date loanDurationStart, Date loanDurationEnd, String loanStatus, String loanPurpose, Date appliedDate, Date approvedDate, Date issuedDate, Integer repaymentTerms) {
         this.loanID = loanID;
         this.borrowerID = borrowerID;
         this.lenderID = lenderID;
@@ -53,6 +60,8 @@ public class Loan {
         this.loanPurpose = loanPurpose;
         this.appliedDate = appliedDate;
         this.approvedDate = approvedDate;
+        this.issuedDate = issuedDate;
+        this.repaymentTerms = repaymentTerms;
     }
 
     public Loan() {}
@@ -135,5 +144,21 @@ public class Loan {
 
     public void setApprovedDate(Date approvedDate) {
         this.approvedDate = approvedDate;
+    }
+
+    public Date getIssuedDate() {
+        return issuedDate;
+    }
+
+    public void setIssuedDate(Date issuedDate) {
+        this.issuedDate = issuedDate;
+    }
+
+    public Integer getRepaymentTerms() {
+        return repaymentTerms;
+    }
+
+    public void setRepaymentTerms(Integer repaymentTerms) {
+        this.repaymentTerms = repaymentTerms;
     }
 }
